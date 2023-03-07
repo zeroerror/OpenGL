@@ -10,7 +10,6 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[Dd]ebug
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -153,3 +152,7 @@ Settings-Generated.asset.meta
 
 # Office 文档
 ~$工作进度文档.xlsx
+
+# User
+/OpenGL/Dependencies
+/OpenGL/Debug
