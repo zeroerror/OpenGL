@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\Application.cpp">
+    <ClCompile Include="src\cpp\ShaderApp.cpp">
       <Filter>src\cpp</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\ShaderUtil.cpp">
       <Filter>src\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp">
+      <Filter>src\cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\ShaderUtil.hpp">
+      <Filter>src\hpp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp">
       <Filter>src\hpp</Filter>
     </ClInclude>
   </ItemGroup>

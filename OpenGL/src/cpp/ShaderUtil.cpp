@@ -12,7 +12,6 @@
 #include <GL/glew.h>
 #include "ShaderUtil.hpp"
 
-
 char* GetCurrentDir(size_t size)
 {
 	char* buf = new char[size];
@@ -22,33 +21,6 @@ char* GetCurrentDir(size_t size)
 	getcwd(buf, size);
 #endif
 	return buf;
-}
-
-std::string ReadShaderFromFile(const char* filepath)
-{
-	std::string fullpath;
-	if (filepath[0] == '.' && filepath[1] == '/')
-	{
-		char* cwd = GetCurrentDir(1024);
-		fullpath = std::string(cwd) + std::string("/") + std::string(filepath + 2);
-		delete[] cwd;
-	}
-	else
-	{
-		fullpath = filepath;
-	}
-
-	std::ifstream stream(fullpath);
-	if (!stream.is_open())
-	{
-		std::cout << "Can't Not Open File: " << fullpath << std::endl;
-		return "";
-	}
-
-	std::stringstream buffer;
-	buffer << stream.rdbuf();
-
-	return buffer.str();
 }
 
 unsigned int CompileShader(const int type, const std::string& source)
@@ -77,7 +49,34 @@ unsigned int CompileShader(const int type, const std::string& source)
 	return id;
 }
 
-unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
+std::string ShaderUtil::ReadShaderFromFile(const char* filepath)
+{
+	std::string fullpath;
+	if (filepath[0] == '.' && filepath[1] == '/')
+	{
+		char* cwd = GetCurrentDir(1024);
+		fullpath = std::string(cwd) + std::string("/") + std::string(filepath + 2);
+		delete[] cwd;
+	}
+	else
+	{
+		fullpath = filepath;
+	}
+
+	std::ifstream stream(fullpath);
+	if (!stream.is_open())
+	{
+		std::cout << "Can't Not Open File: " << fullpath << std::endl;
+		return "";
+	}
+
+	std::stringstream buffer;
+	buffer << stream.rdbuf();
+
+	return buffer.str();
+}
+
+unsigned int ShaderUtil::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
 {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);

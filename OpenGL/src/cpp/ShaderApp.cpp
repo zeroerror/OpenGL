@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "ShaderUtil.hpp"
+#include "ShaderDrawUtil.hpp"
 
 int main(void)
 {
@@ -27,33 +28,22 @@ int main(void)
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	float positions[12] = {
-		-0.5f,
-		-0.5f,
-		0.5f,
-		-0.5f,
-		0,
-		0.5f,
-		-1.0f,
-		0.5f,
-		1.0f,
-		0.5f,
-		0.5f,
+	// Define Vertext Position
+	static float positions[12] = {
+	-0.5f,
+	-0.5f,
+	0.5f,
+	-0.5f,
+	0,
+	0.5f,
+	-1.0f,
+	0.5f,
+	1.0f,
+	0.5f,
+	0.5f,
 	};
 
-	unsigned int buffer;
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), positions, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
-
-	std::string vertexShader = ReadShaderFromFile("./src/shader/VertexShader");
-	std::string fragmentShader = ReadShaderFromFile("./src/shader/FragmentShader");
-
-	unsigned int shader = CreateShader(vertexShader, fragmentShader);
-	glUseProgram(shader);
+	ShaderDrawUtil::DrawTriangle(positions);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
