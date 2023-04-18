@@ -1,1 +1,2 @@
 D:\dev\opengl\OpenGL\Debug\OpenGL.exe
+C:\dev\OpenGL\OpenGL\Debug\OpenGL.exe
