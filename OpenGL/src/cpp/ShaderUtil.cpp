@@ -41,7 +41,7 @@ std::string ReadShaderFromFile(const char* filepath)
 	std::ifstream stream(fullpath);
 	if (!stream.is_open())
 	{
-		std::cout << "Can't Not Open File: " << filepath << std::endl;
+		std::cout << "Can't Not Open File: " << fullpath << std::endl;
 		return "";
 	}
 
