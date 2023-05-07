@@ -30,11 +30,15 @@
     <ClCompile Include="src\cpp\VertexBuffer.cpp" />
     <ClCompile Include="src\cpp\Renderer.cpp" />
     <ClCompile Include="src\cpp\IndexBuffer.cpp" />
+    <ClCompile Include="src\cpp\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\cpp\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\ShaderTest.hpp" />
     <ClInclude Include="src\hpp\ShaderUtil.hpp" />
     <ClInclude Include="src\cpp\Renderer.h" />
     <ClInclude Include="src\cpp\IndexBuffer.h" />
+    <ClInclude Include="src\cpp\VertexBufferLayout.h" />
+    <ClInclude Include="src\cpp\VertexArray.h" />
   </ItemGroup>
 </Project>

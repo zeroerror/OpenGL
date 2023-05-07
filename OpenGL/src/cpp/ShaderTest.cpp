@@ -9,6 +9,9 @@
 #include "ShaderUtil.hpp"
 #include "ShaderTest.hpp"
 
+#include "VertexArray.h"
+#include "VertexBufferLayout.h"
+
 int ShaderTest::Draw_Quad_DynamicColor()
 {
 	GLFWwindow* window;
@@ -40,78 +43,77 @@ int ShaderTest::Draw_Quad_DynamicColor()
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	// Define Vertext Position
-	float positions[] = {
-		-0.5f,
-		-0.5f,
-
-		0.5f,
-		-0.5f,
-
-		0.5,
-		0.5f,
-
-		-0.5f,
-		0.5f,
-	};
-
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 3, 0 };
-
-	// Vertex Array
-	unsigned int vao;
-	GLCall(glGenVertexArrays(1, &vao));
-	GLCall(glBindVertexArray(vao));
-
-	// Vertex Buffer
-	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
-
-	GLCall(glEnableVertexAttribArray(0));
-	GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
-
-	// Index Buffer	
-	IndexBuffer ib(indices, 6);
-
-	// Shader Set
-	std::string vertexShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleVertexShader");
-	std::string fragmentShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleFragmentShader");
-	unsigned int shader = ShaderUtil::CreateShader(vertexShader, fragmentShader);
-	int color_location = glGetUniformLocation(shader, "u_Color");
-	float r = 0.0f;
-	float increment = 0.05f;
-
-	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
 	{
-		/* Render here */
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));
+		// Define Vertext Position
+		float positions[] = {
+			-0.5f,
+			-0.5f,
 
-		r += increment;
-		GLCall(glUseProgram(shader));
-		GLCall(glUniform4f(color_location, r, 0.3f, 0.8f, 1.0f));
+			0.5f,
+			-0.5f,
 
-		// Vertex Array
-		GLCall(glBindVertexArray(vao));
-		ib.Bind();
+			0.5,
+			0.5f,
 
-		// GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
-		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+			-0.5f,
+			0.5f,
+		};
 
-		// Shader: Dynamic change color
-		if (r > 1.0f)
-			increment = -0.05f;
-		else if (r < 0.0f)
-			increment = 0.05f;
+		unsigned int indices[] = {
+			0, 1, 2,
+			2, 3, 0 };
 
-		/* Swap front and back buffers */
-		GLCall(glfwSwapBuffers(window));
+		VertexArray va;
+		VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+		VertexBufferLayout layout;
 
-		/* Poll for and process events */
-		GLCall(glfwPollEvents());
+		layout.Push<float>(2);
+		va.AddBuffer(vb, layout);
+
+		// Index Buffer
+		IndexBuffer ib(indices, 6);
+
+		// Shader Set
+		std::string vertexShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleVertexShader");
+		std::string fragmentShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleFragmentShader");
+		unsigned int shader = ShaderUtil::CreateShader(vertexShader, fragmentShader);
+		int color_location = glGetUniformLocation(shader, "u_Color");
+		float r = 0.0f;
+		float increment = 0.05f;
+
+		/* Loop until the user closes the window */
+		while (!glfwWindowShouldClose(window))
+		{
+			/* Render here */
+			GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+			r += increment;
+			GLCall(glUseProgram(shader));
+			GLCall(glUniform4f(color_location, r, 0.3f, 0.8f, 1.0f));
+
+			// ====== Bind
+			// - Vertex Array Bind
+			va.Bind();
+			// - Index Buffer Bind
+			ib.Bind();
+
+			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+			// Shader: Dynamic change color
+			if (r > 1.0f)
+				increment = -0.05f;
+			else if (r < 0.0f)
+				increment = 0.05f;
+
+			/* Swap front and back buffers */
+			GLCall(glfwSwapBuffers(window));
+
+			/* Poll for and process events */
+			GLCall(glfwPollEvents());
+		}
+
 	}
 
-	GLCall(glfwTerminate());
-
+	glfwTerminate();
 	return 0;
 }
