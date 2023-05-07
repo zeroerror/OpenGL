@@ -3,8 +3,9 @@
 #include <iostream>
 #include "ShaderUtil.hpp"
 #include "ShaderDrawUtil.hpp"
+#include "ShaderTest.hpp"
 
-int main(void)
+int ShaderTest::DrawQuad()
 {
 	GLFWwindow* window;
 
@@ -29,21 +30,25 @@ int main(void)
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	// Define Vertext Position
-	static float positions[12] = {
-	-0.5f,
-	-0.5f,
-	0.5f,
-	-0.5f,
-	0,
-	0.5f,
-	-1.0f,
-	0.5f,
-	1.0f,
-	0.5f,
-	0.5f,
+	float positions[12] = {
+		-0.5f,
+		-0.5f,
+
+		0.5f,
+		-0.5f,
+
+		0.5,
+		0.5f,
+
+		-0.5f,
+		0.5f,
 	};
 
-	ShaderDrawUtil::DrawTriangle(positions);
+	unsigned int indices[6] = {
+		0, 1, 2,
+		2, 3, 0 };
+
+	ShaderDrawUtil::DrawWithIndices(positions, 12, indices, 6);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -51,8 +56,7 @@ int main(void)
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		glDrawArrays(GL_TRIANGLES, 3, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

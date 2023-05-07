@@ -155,17 +155,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp" />
-    <ClInclude Include="src\hpp\ShaderUtil.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\cpp\ShaderApp.cpp" />
-    <ClCompile Include="src\cpp\ShaderUtil.cpp" />
-    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="src\shader\FragmentShader" />
     <None Include="src\shader\VertexShader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpp\Main.cpp" />
+    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp" />
+    <ClCompile Include="src\cpp\ShaderTest.cpp" />
+    <ClCompile Include="src\cpp\ShaderUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp" />
+    <ClInclude Include="src\hpp\ShaderTest.hpp" />
+    <ClInclude Include="src\hpp\ShaderUtil.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

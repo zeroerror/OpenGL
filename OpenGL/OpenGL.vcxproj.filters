@@ -15,30 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\ShaderApp.cpp">
-      <Filter>src\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\ShaderUtil.cpp">
-      <Filter>src\cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp">
-      <Filter>src\cpp</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\hpp\ShaderUtil.hpp">
-      <Filter>src\hpp</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp">
-      <Filter>src\hpp</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="src\shader\FragmentShader">
       <Filter>src\shader</Filter>
     </None>
     <None Include="src\shader\VertexShader">
       <Filter>src\shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpp\Main.cpp" />
+    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp" />
+    <ClCompile Include="src\cpp\ShaderTest.cpp" />
+    <ClCompile Include="src\cpp\ShaderUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp" />
+    <ClInclude Include="src\hpp\ShaderTest.hpp" />
+    <ClInclude Include="src\hpp\ShaderUtil.hpp" />
   </ItemGroup>
 </Project>
