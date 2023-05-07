@@ -2,6 +2,7 @@
 
 namespace ShaderTest {
 
-	int DrawQuad();
+	int Draw_Quad();
+	int Draw_Quad_DynamicColor();
 
 }

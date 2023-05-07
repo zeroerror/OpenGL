@@ -4,5 +4,6 @@
 
 int main(void)
 {
-	return ShaderTest::DrawQuad();
+	// return ShaderTest::Draw_Quad();
+	return ShaderTest::Draw_Quad_DynamicColor();
 }
