@@ -1,78 +1,13 @@
+#include <iostream>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+
 #include "ShaderUtil.hpp"
-#include "ShaderDrawUtil.hpp"
 #include "ShaderTest.hpp"
-
-int ShaderTest::Draw_Quad()
-{
-	GLFWwindow* window;
-
-	/* Initialize the library */
-	if (!glfwInit())
-		return -1;
-
-	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "My OpenGL Window", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-
-	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	if (glewInit() != GLEW_OK)
-		std::cout << "ERROR" << std::endl;
-
-	std::cout << glGetString(GL_VERSION) << std::endl;
-
-	// Define Vertext Position
-	float positions[12] = {
-		-0.5f,
-		-0.5f,
-
-		0.5f,
-		-0.5f,
-
-		0.5,
-		0.5f,
-
-		-0.5f,
-		0.5f,
-	};
-
-	unsigned int indices[6] = {
-		0, 1, 2,
-		2, 3, 0 };
-
-	unsigned int shader = ShaderDrawUtil::Draw(positions, 12, indices, 6);
-
-	// Use uniform to change color
-	int location = glGetUniformLocation(shader, "u_Color");
-	glUniform4f(location, 0.2f, 0.3f, 0.8f, 1.0f);
-
-	/* Loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
-	{
-		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
-
-		/* Poll for and process events */
-		glfwPollEvents();
-	}
-
-	glfwTerminate();
-
-	return 0;
-}
 
 int ShaderTest::Draw_Quad_DynamicColor()
 {
@@ -82,19 +17,23 @@ int ShaderTest::Draw_Quad_DynamicColor()
 	if (!glfwInit())
 		return -1;
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "My OpenGL Window", NULL, NULL);
 	if (!window)
 	{
-		glfwTerminate();
+		GLCall(glfwTerminate());
 		return -1;
 	}
 
 	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
+	GLCall(glfwMakeContextCurrent(window));
 
 	// Enable VSync
-	glfwSwapInterval(1);
+	GLCall(glfwSwapInterval(1));
 
 	if (glewInit() != GLEW_OK)
 		std::cout << "ERROR" << std::endl;
@@ -102,7 +41,7 @@ int ShaderTest::Draw_Quad_DynamicColor()
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	// Define Vertext Position
-	float positions[12] = {
+	float positions[] = {
 		-0.5f,
 		-0.5f,
 
@@ -116,12 +55,28 @@ int ShaderTest::Draw_Quad_DynamicColor()
 		0.5f,
 	};
 
-	unsigned int indices[6] = {
+	unsigned int indices[] = {
 		0, 1, 2,
 		2, 3, 0 };
 
-	unsigned int shader = ShaderDrawUtil::Draw(positions, 12, indices, 6);
+	// Vertex Array
+	unsigned int vao;
+	GLCall(glGenVertexArrays(1, &vao));
+	GLCall(glBindVertexArray(vao));
 
+	// Vertex Buffer
+	VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+
+	GLCall(glEnableVertexAttribArray(0));
+	GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+
+	// Index Buffer	
+	IndexBuffer ib(indices, 6);
+
+	// Shader Set
+	std::string vertexShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleVertexShader");
+	std::string fragmentShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleFragmentShader");
+	unsigned int shader = ShaderUtil::CreateShader(vertexShader, fragmentShader);
 	int color_location = glGetUniformLocation(shader, "u_Color");
 	float r = 0.0f;
 	float increment = 0.05f;
@@ -130,27 +85,33 @@ int ShaderTest::Draw_Quad_DynamicColor()
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		r += increment;
+		GLCall(glUseProgram(shader));
+		GLCall(glUniform4f(color_location, r, 0.3f, 0.8f, 1.0f));
 
-		// Dynamic change color
+		// Vertex Array
+		GLCall(glBindVertexArray(vao));
+		ib.Bind();
+
+		// GLCall(glDrawArrays(GL_TRIANGLES, 0, 6));
+		GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+		// Shader: Dynamic change color
 		if (r > 1.0f)
 			increment = -0.05f;
 		else if (r < 0.0f)
 			increment = 0.05f;
 
-		r += increment;
-		glUniform4f(color_location, r, 0.3f, 0.8f, 1.0f);
-
 		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
+		GLCall(glfwSwapBuffers(window));
 
 		/* Poll for and process events */
-		glfwPollEvents();
+		GLCall(glfwPollEvents());
 	}
 
-	glfwTerminate();
+	GLCall(glfwTerminate());
 
 	return 0;
 }

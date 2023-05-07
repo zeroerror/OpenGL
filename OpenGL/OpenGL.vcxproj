@@ -159,13 +159,17 @@
     <None Include="src\shader\VertexShader" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpp\IndexBuffer.cpp" />
     <ClCompile Include="src\cpp\Main.cpp" />
-    <ClCompile Include="src\cpp\ShaderDrawUtil.cpp" />
+    <ClCompile Include="src\cpp\Renderer.cpp" />
     <ClCompile Include="src\cpp\ShaderTest.cpp" />
     <ClCompile Include="src\cpp\ShaderUtil.cpp" />
+    <ClCompile Include="src\cpp\VertexBuffer.cpp" />
+    <ClCompile Include="src\cpp\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\hpp\ShaderDrawUtil.hpp" />
+    <ClInclude Include="src\cpp\IndexBuffer.h" />
+    <ClInclude Include="src\cpp\Renderer.h" />
     <ClInclude Include="src\hpp\ShaderTest.hpp" />
     <ClInclude Include="src\hpp\ShaderUtil.hpp" />
   </ItemGroup>
