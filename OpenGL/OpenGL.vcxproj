@@ -163,7 +163,7 @@
     <ClCompile Include="src\cpp\Main.cpp" />
     <ClCompile Include="src\cpp\Renderer.cpp" />
     <ClCompile Include="src\cpp\ShaderTest.cpp" />
-    <ClCompile Include="src\cpp\ShaderUtil.cpp" />
+    <ClCompile Include="src\cpp\Shader.cpp" />
     <ClCompile Include="src\cpp\VertexArray.cpp" />
     <ClCompile Include="src\cpp\VertexBuffer.cpp" />
     <ClCompile Include="src\cpp\VertexBuffer.h" />
@@ -175,7 +175,7 @@
     <ClInclude Include="src\cpp\VertexArray.h" />
     <ClInclude Include="src\cpp\VertexBufferLayout.h" />
     <ClInclude Include="src\hpp\ShaderTest.hpp" />
-    <ClInclude Include="src\hpp\ShaderUtil.hpp" />
+    <ClInclude Include="src\cpp\Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

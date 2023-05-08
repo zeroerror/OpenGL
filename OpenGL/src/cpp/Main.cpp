@@ -1,4 +1,3 @@
-#include "ShaderUtil.hpp"
 #include "ShaderTest.hpp"
 
 int main(void)

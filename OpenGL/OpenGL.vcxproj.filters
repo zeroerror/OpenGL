@@ -25,7 +25,7 @@
   <ItemGroup>
     <ClCompile Include="src\cpp\Main.cpp" />
     <ClCompile Include="src\cpp\ShaderTest.cpp" />
-    <ClCompile Include="src\cpp\ShaderUtil.cpp" />
+    <ClCompile Include="src\cpp\Shader.cpp" />
     <ClCompile Include="src\cpp\VertexBuffer.h" />
     <ClCompile Include="src\cpp\VertexBuffer.cpp" />
     <ClCompile Include="src\cpp\Renderer.cpp" />
@@ -35,7 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\ShaderTest.hpp" />
-    <ClInclude Include="src\hpp\ShaderUtil.hpp" />
+    <ClInclude Include="src\cpp\Shader.h" />
     <ClInclude Include="src\cpp\Renderer.h" />
     <ClInclude Include="src\cpp\IndexBuffer.h" />
     <ClInclude Include="src\cpp\VertexBufferLayout.h" />

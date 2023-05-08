@@ -6,11 +6,11 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
-#include "ShaderUtil.hpp"
 #include "ShaderTest.hpp"
 
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
+#include "Shader.h"
 
 int ShaderTest::Draw_Quad_DynamicColor()
 {
@@ -73,11 +73,9 @@ int ShaderTest::Draw_Quad_DynamicColor()
 		// Index Buffer
 		IndexBuffer ib(indices, 6);
 
-		// Shader Set
-		std::string vertexShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleVertexShader");
-		std::string fragmentShader = ShaderUtil::ReadShaderFromFile("./src/shader/TriangleFragmentShader");
-		unsigned int shader = ShaderUtil::CreateShader(vertexShader, fragmentShader);
-		int color_location = glGetUniformLocation(shader, "u_Color");
+		// Shader Create
+		Shader shader("./src/shader/Shader");
+
 		float r = 0.0f;
 		float increment = 0.05f;
 
@@ -87,15 +85,16 @@ int ShaderTest::Draw_Quad_DynamicColor()
 			/* Render here */
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-			r += increment;
-			GLCall(glUseProgram(shader));
-			GLCall(glUniform4f(color_location, r, 0.3f, 0.8f, 1.0f));
-
-			// ====== Bind
-			// - Vertex Array Bind
+			// - Vertex Array
 			va.Bind();
-			// - Index Buffer Bind
+
+			// - Index Buffer
 			ib.Bind();
+
+			// Shader
+			shader.Bind();
+			r += increment;
+			shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
 			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
