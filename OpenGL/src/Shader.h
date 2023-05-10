@@ -2,14 +2,12 @@
 #pragma once
 #include <string>
 
-struct ShaderProgramSource
-{
+struct ShaderProgramSource {
 	std::string VertexSource;
 	std::string FragmentSource;
 };
 
-class Shader
-{
+class Shader {
 
 private:
 	std::string m_FilePath;
@@ -19,8 +17,8 @@ public:
 	Shader(const std::string& filePath);
 	~Shader();
 
-	void Bind();
-	void UnBind();
+	void Bind() const;
+	void UnBind()const;
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
 	int GetUniformLocation(const std::string& name);
 

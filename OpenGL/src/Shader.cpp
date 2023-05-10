@@ -16,26 +16,22 @@
 #include "Renderer.h"
 
 Shader::Shader(const std::string& filePath)
-	: m_FilePath(filePath), m_RendererID(0)
-{
+	: m_RendererID(0), m_FilePath(filePath) {
 	ShaderProgramSource source = ParseShader(filePath);
 	m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 }
 
-Shader::~Shader()
-{
+Shader::~Shader() {
 	GLCall(glDeleteProgram(m_RendererID));
 }
 
-ShaderProgramSource Shader::ParseShader(const std::string& filePath)
-{
+ShaderProgramSource Shader::ParseShader(const std::string& filePath) {
 	std::ifstream stream(filePath);
 	if (!stream.is_open()) {
 		ASSERT(false);
 	}
 
-	enum class ShaderType
-	{
+	enum class ShaderType {
 		NONE = -1,
 		VERTEX = 0,
 		FRAGMENT = 1
@@ -44,17 +40,14 @@ ShaderProgramSource Shader::ParseShader(const std::string& filePath)
 	std::string line;
 	std::stringstream ss[2];
 	ShaderType type = ShaderType::NONE;
-	while (getline(stream, line))
-	{
-		if (line.find("#shader") != std::string::npos)
-		{
+	while (getline(stream, line)) {
+		if (line.find("#shader") != std::string::npos) {
 			if (line.find("vertex") != std::string::npos)
 				type = ShaderType::VERTEX;
 			else if (line.find("fragment") != std::string::npos)
 				type = ShaderType::FRAGMENT;
 		}
-		else
-		{
+		else {
 			ss[(int)type] << line << "\n";
 		}
 	}
@@ -62,8 +55,7 @@ ShaderProgramSource Shader::ParseShader(const std::string& filePath)
 	return { ss[0].str(), ss[1].str() };
 }
 
-unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
-{
+unsigned int Shader::CompileShader(unsigned int type, const std::string& source) {
 	unsigned int id = glCreateShader(type);
 	const char* src = source.c_str();
 	GLCall(glShaderSource(id, 1, &src, nullptr));
@@ -72,8 +64,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
 	// Error handling
 	int status;
 	GLCall(glGetShaderiv(id, GL_COMPILE_STATUS, &status));
-	if (status == GL_FALSE)
-	{
+	if (status == GL_FALSE) {
 		int len;
 		GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len));
 		char* msg = (char*)alloca(len * sizeof(char));
@@ -88,8 +79,7 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
 	return id;
 }
 
-unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
-{
+unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader) {
 	unsigned int program = glCreateProgram();
 	unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
 	unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
@@ -105,49 +95,40 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 	return program;
 }
 
-void Shader::Bind()
-{
+void Shader::Bind() const {
 	GLCall(glUseProgram(m_RendererID));
 }
 
-void Shader::UnBind()
-{
+void Shader::UnBind() const {
 	GLCall(glUseProgram(0));
 }
 
-void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
-{
+void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3) {
 	GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
 }
 
-int Shader::GetUniformLocation(const std::string& name)
-{
+int Shader::GetUniformLocation(const std::string& name) {
 	GLCall(int location = glGetUniformLocation(m_RendererID, name.c_str()));
-	if (location == -1)
-	{
+	if (location == -1) {
 		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
 	}
 
 	return location;
 }
 
-std::string Shader::ReadShaderFromFile(const char* filepath)
-{
+std::string Shader::ReadShaderFromFile(const char* filepath) {
 	std::string fullpath;
-	if (filepath[0] == '.' && filepath[1] == '/')
-	{
+	if (filepath[0] == '.' && filepath[1] == '/') {
 		char* cwd = GetCurrentDir(1024);
 		fullpath = std::string(cwd) + std::string("/") + std::string(filepath + 2);
 		delete[] cwd;
 	}
-	else
-	{
+	else {
 		fullpath = filepath;
 	}
 
 	std::ifstream stream(fullpath);
-	if (!stream.is_open())
-	{
+	if (!stream.is_open()) {
 		std::cout << "Can't Not Open File: " << fullpath << std::endl;
 		return "";
 	}
@@ -158,8 +139,7 @@ std::string Shader::ReadShaderFromFile(const char* filepath)
 	return buffer.str();
 }
 
-char* Shader::GetCurrentDir(size_t size)
-{
+char* Shader::GetCurrentDir(size_t size) {
 	char* buf = new char[size];
 #if defined(_WIN32)
 	GetCurrentDirectoryA(size, buf);

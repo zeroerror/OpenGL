@@ -2,18 +2,16 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
-
-#include "ShaderAPI.h"
-
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
+#include "ShaderAPI.h"
 
-int ShaderAPI::Draw_Quad_DynamicColor()
-{
+int ShaderAPI::Draw_Quad_DynamicColor() {
 	GLFWwindow* window;
 
 	/* Initialize the library */
@@ -26,8 +24,7 @@ int ShaderAPI::Draw_Quad_DynamicColor()
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "My OpenGL Window", NULL, NULL);
-	if (!window)
-	{
+	if (!window) {
 		GLCall(glfwTerminate());
 		return -1;
 	}
@@ -80,8 +77,7 @@ int ShaderAPI::Draw_Quad_DynamicColor()
 		float increment = 0.05f;
 
 		/* Loop until the user closes the window */
-		while (!glfwWindowShouldClose(window))
-		{
+		while (!glfwWindowShouldClose(window)) {
 			/* Render here */
 			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 

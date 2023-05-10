@@ -1,6 +1,5 @@
 #include "ShaderAPI.h"
 
-int main(void)
-{
+int main(void) {
 	return ShaderAPI::Draw_Quad_DynamicColor();
 }

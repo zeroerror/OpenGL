@@ -32,6 +32,8 @@
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\VertexBufferLayout.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
+    <ClCompile Include="src\Vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ShaderAPI.h" />
@@ -40,5 +42,7 @@
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\VertexBufferLayout.h" />
     <ClInclude Include="src\VertexArray.h" />
+    <ClInclude Include="src\Vendor\stb_image\stb_image.h" />
+    <ClInclude Include="src\Texture.h" />
   </ItemGroup>
 </Project>
