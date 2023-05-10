@@ -159,6 +159,7 @@
     <None Include="src\shader\VertexShader" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Debugger.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -169,9 +170,9 @@
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\VertexBuffer.h" />
-    <ClCompile Include="src\VertexBufferLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Debugger.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Texture.h" />
@@ -180,6 +181,10 @@
     <ClInclude Include="src\VertexBufferLayout.h" />
     <ClInclude Include="src\ShaderAPI.h" />
     <ClInclude Include="src\Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="D:\Users\PC3070\Desktop\jerry.png" />
+    <Image Include="res\textures\jerry.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

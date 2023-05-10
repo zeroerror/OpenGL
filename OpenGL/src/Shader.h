@@ -21,6 +21,10 @@ public:
 
 	void Bind() const;
 	void UnBind()const;
+
+	// Set Uniforms
+	void SetUniform1i(const std::string& name, int v);
+	void SetUniform1f(const std::string& name, float v);
 	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
 	int GetUniformLocation(const std::string& name);
 
@@ -31,4 +35,5 @@ private:
 
 	std::string ReadShaderFromFile(const char* filepath);
 	char* GetCurrentDir(size_t count);
+
 };

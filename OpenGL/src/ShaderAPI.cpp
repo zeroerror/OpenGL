@@ -10,6 +10,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "ShaderAPI.h"
+#include "Texture.h"
 
 int ShaderAPI::Draw_Quad_DynamicColor() {
 	GLFWwindow* window;
@@ -43,17 +44,10 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 	{
 		// Define Vertext Position
 		float positions[] = {
-			-0.5f,
-			-0.5f,
-
-			0.5f,
-			-0.5f,
-
-			0.5,
-			0.5f,
-
-			-0.5f,
-			0.5f,
+			-0.5f,-0.5f,0.0f,0.0f,
+			0.5f,-0.5f,1.0f,0.0f,
+			0.5,0.5f,1.0f,1.0f,
+			-0.5f,0.5f,0.0f,1.0f
 		};
 
 		unsigned int indices[] = {
@@ -61,9 +55,10 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 			2, 3, 0 };
 
 		VertexArray va;
-		VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+		VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 		VertexBufferLayout layout;
 
+		layout.Push<float>(2);
 		layout.Push<float>(2);
 		va.AddBuffer(vb, layout);
 
@@ -71,34 +66,37 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 		IndexBuffer ib(indices, 6);
 
 		// Shader Create
-		Shader shader("./src/Shader/ShaderCode");
+		Shader shader("res/shader/Basic.shader");
+
+		// Texture 
+		Texture texture("res/textures/jerry.png");
+		texture.Bind();
+
+		shader.Bind();
+		shader.SetUniform1i("u_Texture", 0);
 
 		float r = 0.0f;
 		float increment = 0.05f;
 
+		Renderer renderer;
+
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window)) {
 			/* Render here */
-			GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
-			// - Vertex Array
-			va.Bind();
+			renderer.Clear();
 
-			// - Index Buffer
-			ib.Bind();
-
-			// Shader
 			shader.Bind();
-			r += increment;
 			shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
-			GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+			renderer.Draw(va, ib, shader);
 
-			// Shader: Dynamic change color
+			// Dynamic change color
 			if (r > 1.0f)
 				increment = -0.05f;
 			else if (r < 0.0f)
 				increment = 0.05f;
+			r += increment;
 
 			/* Swap front and back buffers */
 			GLCall(glfwSwapBuffers(window));

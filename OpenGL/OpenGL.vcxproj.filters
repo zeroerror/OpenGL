@@ -30,10 +30,10 @@
     <ClCompile Include="src\VertexBuffer.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
-    <ClCompile Include="src\VertexBufferLayout.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Debugger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ShaderAPI.h" />
@@ -44,5 +44,10 @@
     <ClInclude Include="src\VertexArray.h" />
     <ClInclude Include="src\Vendor\stb_image\stb_image.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Debugger.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="D:\Users\PC3070\Desktop\jerry.png" />
+    <Image Include="res\textures\jerry.png" />
   </ItemGroup>
 </Project>
