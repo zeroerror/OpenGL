@@ -76,7 +76,7 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 		shader.SetUniform1i("u_Texture", 0);
 
 		float r = 0.0f;
-		float increment = 0.05f;
+		float increment = 0.1f;
 
 		Renderer renderer;
 
@@ -87,8 +87,7 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 			renderer.Clear();
 
 			shader.Bind();
-			shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
-
+			shader.SetUniform4f("u_BlendColor", r, 0.0f, 0.0f, 0.5f);
 			renderer.Draw(va, ib, shader);
 
 			// Dynamic change color
