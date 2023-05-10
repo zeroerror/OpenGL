@@ -30,6 +30,9 @@ Shader::~Shader()
 ShaderProgramSource Shader::ParseShader(const std::string& filePath)
 {
 	std::ifstream stream(filePath);
+	if (!stream.is_open()) {
+		ASSERT(false);
+	}
 
 	enum class ShaderType
 	{

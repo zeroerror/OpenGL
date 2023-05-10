@@ -23,22 +23,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\Main.cpp" />
-    <ClCompile Include="src\cpp\ShaderTest.cpp" />
-    <ClCompile Include="src\cpp\Shader.cpp" />
-    <ClCompile Include="src\cpp\VertexBuffer.h" />
-    <ClCompile Include="src\cpp\VertexBuffer.cpp" />
-    <ClCompile Include="src\cpp\Renderer.cpp" />
-    <ClCompile Include="src\cpp\IndexBuffer.cpp" />
-    <ClCompile Include="src\cpp\VertexBufferLayout.cpp" />
-    <ClCompile Include="src\cpp\VertexArray.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\ShaderAPI.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\VertexBuffer.h" />
+    <ClCompile Include="src\VertexBuffer.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\VertexBufferLayout.cpp" />
+    <ClCompile Include="src\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\hpp\ShaderTest.hpp" />
-    <ClInclude Include="src\cpp\Shader.h" />
-    <ClInclude Include="src\cpp\Renderer.h" />
-    <ClInclude Include="src\cpp\IndexBuffer.h" />
-    <ClInclude Include="src\cpp\VertexBufferLayout.h" />
-    <ClInclude Include="src\cpp\VertexArray.h" />
+    <ClInclude Include="src\ShaderAPI.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\VertexBufferLayout.h" />
+    <ClInclude Include="src\VertexArray.h" />
   </ItemGroup>
 </Project>

@@ -6,13 +6,13 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
-#include "ShaderTest.hpp"
+#include "ShaderAPI.h"
 
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 
-int ShaderTest::Draw_Quad_DynamicColor()
+int ShaderAPI::Draw_Quad_DynamicColor()
 {
 	GLFWwindow* window;
 
@@ -74,7 +74,7 @@ int ShaderTest::Draw_Quad_DynamicColor()
 		IndexBuffer ib(indices, 6);
 
 		// Shader Create
-		Shader shader("./src/shader/Shader");
+		Shader shader("./src/Shader/ShaderCode");
 
 		float r = 0.0f;
 		float increment = 0.05f;
