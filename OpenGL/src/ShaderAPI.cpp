@@ -1,16 +1,4 @@
-#include <iostream>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-#include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "VertexBufferLayout.h"
-#include "Shader.h"
 #include "ShaderAPI.h"
-#include "Texture.h"
 
 int ShaderAPI::Draw_Quad_DynamicColor() {
 	GLFWwindow* window;
@@ -54,6 +42,7 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 			0, 1, 2,
 			2, 3, 0 };
 
+		// Vertex Array
 		VertexArray va;
 		VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 		VertexBufferLayout layout;
@@ -65,20 +54,24 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 		// Index Buffer
 		IndexBuffer ib(indices, 6);
 
-		// Shader Create
+		// Shader
 		Shader shader("res/shader/Basic.shader");
+		shader.Bind();
+
+		glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
+		shader.SetUniform1i("u_Texture", 0);
+		shader.SetUniformMat4f("u_MVP", proj);
 
 		// Texture 
 		Texture texture("res/textures/jerry.png");
 		texture.Bind();
-
-		shader.Bind();
-		shader.SetUniform1i("u_Texture", 0);
-
+		;
 		float r = 0.0f;
 		float increment = 0.1f;
 
 		Renderer renderer;
+
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window)) {
