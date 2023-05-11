@@ -59,12 +59,12 @@ int ShaderAPI::Draw_Quad_DynamicColor() {
 		shader.Bind();
 
 		glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
-
-		shader.SetUniform1i("u_Texture", 0);
 		shader.SetUniformMat4f("u_MVP", proj);
 
+		shader.SetUniform1i("u_Texture", 0);
+
 		// Texture 
-		Texture texture("res/textures/jerry.png");
+		Texture texture("res/textures/room.png");
 		texture.Bind();
 		;
 		float r = 0.0f;
