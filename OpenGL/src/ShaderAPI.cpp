@@ -51,15 +51,13 @@ int ShaderAPI::DrawTest() {
 		// Define Vertext Position
 		unsigned int width = 640;
 		unsigned int height = 480;
-		unsigned int halfWidth = width / 2;
-		unsigned int halfHeight = height / 2;
-		int anchorX = 0;
-		int anchorY = 0;
+		int anchorX = width / 2.0f;
+		int anchorY = height / 2.0f;
 		float positions[] = {
-			anchorX,anchorY,0,0,
-			anchorX + width,anchorY,1,0,
-			anchorX + width,anchorY + height,1,1,
-			anchorX,anchorY + height,0,1,
+			-anchorX,-anchorY,0,0,
+			width - anchorX,-anchorY,1,0,
+			width - anchorX,height - anchorY ,1,1,
+			-anchorX,height - anchorY,0,1,
 		};
 
 		unsigned int indices[] = {
@@ -80,52 +78,58 @@ int ShaderAPI::DrawTest() {
 
 		// Shader
 		Shader shader("res/shader/Basic.shader");
-		// Shader Args
-		float r = 0.0f;
-		float increment = 0.1f;
 
 		// Texture 
 		Texture texture("res/textures/room.png");
 		texture.Bind();
 
-		Renderer renderer;
-
 		// Args
-		glm::vec3 translation = glm::vec3(0, 0, 0);
+		glm::vec3 translationA = glm::vec3(0, 0, 0);
+		glm::vec3 translationB = glm::vec3(0, 0, 0);
 		bool showUI = true;
 
+		Renderer renderer;
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window)) {
 			renderer.Clear();
 
 			GLCall(glfwPollEvents());
 
-			// - MVP
-			glm::mat4 model = glm::translate(glm::mat4(1), translation);
-			glm::mat4 view = glm::translate(
-				glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
-				glm::vec3(0, 0, 0)
-			);
-			glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
-			glm::mat4 mvp = proj * view * model;
-
 			// Shader 
 			shader.Bind();
-			if (r > 1.0f)
-				increment = -0.05f;
-			else if (r < 0.0f)
-				increment = 0.05f;
-			r += increment;
 			shader.SetUniform1i("u_Texture", 0);
-			shader.SetUniformMat4f("u_MVP", mvp);
-			shader.SetUniform4f("u_BlendColor", r, 0.0f, 0.0f, 0.5f);
-			renderer.Draw(va, ib, shader);
+
+			// - MVP 
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1), translationA);
+				glm::mat4 view = glm::translate(
+					glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
+					glm::vec3(0, 0, 0)
+				);
+				glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
+				glm::mat4 mvp = proj * view * model;
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
+			{
+				glm::mat4 model = glm::translate(glm::mat4(1), translationB);
+				glm::mat4 view = glm::translate(
+					glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
+					glm::vec3(0, 0, 0)
+				);
+				glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
+				glm::mat4 mvp = proj * view * model;
+				shader.SetUniformMat4f("u_MVP", mvp);
+				renderer.Draw(va, ib, shader);
+			}
+
 
 			// Dear IMGUI frame
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
-			ImGui::SliderFloat3("translation", &translation.x, 0, screen_width - width);
+			ImGui::SliderFloat3("translationA", &translationA.x, 0, screen_width - width);
+			ImGui::SliderFloat3("translationB", &translationB.x, 0, screen_width - width);
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
