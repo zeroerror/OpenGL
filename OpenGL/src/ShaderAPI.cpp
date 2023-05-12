@@ -38,8 +38,6 @@ int ShaderAPI::DrawTest() {
 	ImGui_ImplOpenGL3_Init(glsl_version);
 	io.IniFilename = nullptr;
 	bool show_demo_window = true;
-	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 	// Enable VSync
 	GLCall(glfwSwapInterval(1));
@@ -80,7 +78,6 @@ int ShaderAPI::DrawTest() {
 		Shader shader("res/shader/Basic.shader");
 		shader.Bind();
 		shader.SetUniform1i("u_Texture", 0);
-
 		// Shader Args
 		float r = 0.0f;
 		float increment = 0.1f;
@@ -89,17 +86,12 @@ int ShaderAPI::DrawTest() {
 		Texture texture("res/textures/room.png");
 		texture.Bind();
 
-		// - MVP
-		glm::mat4 model = glm::translate(glm::mat4(1), glm::vec3(0, screen_height / 5.0f, 0));
-		glm::mat4 view = glm::translate(
-			glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
-			glm::vec3((screen_width - width) / 2.0f, (screen_height - height) / 2.0f, 0)
-		);
-		glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
-		glm::mat4 mvp = proj * view * model;
-		shader.SetUniformMat4f("u_MVP", mvp);
 
 		Renderer renderer;
+
+		// Args
+		glm::vec3 translation = glm::vec3(0, screen_height / 5.0f, 0);
+		bool showUI = true;
 
 		/* Loop until the user closes the window */
 		while (!glfwWindowShouldClose(window)) {
@@ -108,62 +100,33 @@ int ShaderAPI::DrawTest() {
 			/* Poll for and process events */
 			GLCall(glfwPollEvents());
 
-			// Dear ImGui frame
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
-			if (show_demo_window) {
-				ImGui::ShowDemoWindow(&show_demo_window);
-			}
-
-			{
-				static float f = 0.0f;
-				static int counter = 0;
-
-				ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-				ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-				ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-				ImGui::Checkbox("Another Window", &show_another_window);
-
-				ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-				ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-				if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-					counter++;
-				ImGui::SameLine();
-				ImGui::Text("counter = %d", counter);
-
-				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-				ImGui::End();
-			}
-			if (show_another_window) {
-				ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-				ImGui::Text("Hello from another window!");
-				if (ImGui::Button("Close Me"))
-					show_another_window = false;
-				ImGui::End();
-			}
+			// - MVP
+			glm::mat4 model = glm::translate(glm::mat4(1), translation);
+			glm::mat4 view = glm::translate(
+				glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
+				glm::vec3((screen_width - width) / 2.0f, (screen_height - height) / 2.0f, 0)
+			);
+			glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
+			glm::mat4 mvp = proj * view * model;
+			shader.SetUniformMat4f("u_MVP", mvp);
 
 			// Shader Rendering
 			shader.Bind();
-			shader.SetUniform4f("u_BlendColor", r, 0.0f, 0.0f, 0.5f);
-			renderer.Draw(va, ib, shader);
-
-			// Dear IMGUI Rendering
-			ImGui::Render();
-			int display_w, display_h;
-			glfwGetFramebufferSize(window, &display_w, &display_h);
-			glViewport(0, 0, display_w, display_h);
-			glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-			// Dynamic change color
 			if (r > 1.0f)
 				increment = -0.05f;
 			else if (r < 0.0f)
 				increment = 0.05f;
 			r += increment;
+			shader.SetUniform4f("u_BlendColor", r, 0.0f, 0.0f, 0.5f);
+			renderer.Draw(va, ib, shader);
+
+			// Dear IMGUI frame
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+			ImGui::SliderFloat3("translation", &translation.x, -(screen_width / 2.0f), (screen_width / 2.0f));
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			/* Swap front and back buffers */
 			GLCall(glfwSwapBuffers(window));
@@ -171,7 +134,6 @@ int ShaderAPI::DrawTest() {
 
 	}
 
-	// Cleanup
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
