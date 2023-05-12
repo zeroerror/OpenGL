@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include <iostream>
 #include <GL/glew.h>
@@ -19,6 +20,6 @@
 class ShaderAPI {
 
 public:
-	static int Draw_Quad_DynamicColor();
+	static int DrawTest();
 
 };
