@@ -82,33 +82,28 @@ int ShaderAPI::DrawTest() {
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init();
 
-		test::TestClearColor  test;
+		test::TestClearColor colorTest;
 
 		while (!glfwWindowShouldClose(window)) {
 			GLCall(glfwPollEvents());
 			renderer.Clear();
 
-			test.OnUpdate(0.0f);
-			test.OnRenderer();
+			colorTest.OnUpdate(0);
+			colorTest.OnRenderer();
+			//renderer.Draw(va, ib, shader);
 
-			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
+			ImGui_ImplOpenGL3_NewFrame();
 			ImGui::NewFrame();
-			test.OnImGuiRender();
-
-			// Shader 
-			shader.Bind();
-			shader.SetUniform1i("u_Texture", 0);
+			colorTest.OnImGuiRender();
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			/* Swap front and back buffers */
 			GLCall(glfwSwapBuffers(window));
 		}
 
 	}
-
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
