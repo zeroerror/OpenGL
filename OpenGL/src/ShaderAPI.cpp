@@ -1,7 +1,4 @@
 #include "ShaderAPI.h"
-#include "imgui/imgui.h"
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
 
 int ShaderAPI::DrawTest() {
 	GLFWwindow* window;
@@ -16,8 +13,8 @@ int ShaderAPI::DrawTest() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	const unsigned int screen_width = 1920;
-	const unsigned int screen_height = 1080;
+	const unsigned int screen_width = 640;
+	const unsigned int screen_height = 480;
 	window = glfwCreateWindow(screen_width, screen_height, "My OpenGL Window", NULL, NULL);
 	if (!window) {
 		GLCall(glfwTerminate());
@@ -26,18 +23,6 @@ int ShaderAPI::DrawTest() {
 
 	// GLFW Context
 	GLCall(glfwMakeContextCurrent(window));
-
-	// Dear IMGUI
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init(glsl_version);
-	io.IniFilename = nullptr;
-	bool show_demo_window = true;
 
 	// Enable VSync
 	GLCall(glfwSwapInterval(1));
@@ -89,49 +74,31 @@ int ShaderAPI::DrawTest() {
 		bool showUI = true;
 
 		Renderer renderer;
-		/* Loop until the user closes the window */
+
+		// IMGUI Context
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init();
+
+		test::TestClearColor  test;
+
 		while (!glfwWindowShouldClose(window)) {
+			GLCall(glfwPollEvents());
 			renderer.Clear();
 
-			GLCall(glfwPollEvents());
+			test.OnUpdate(0.0f);
+			test.OnRenderer();
+
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
+			test.OnImGuiRender();
 
 			// Shader 
 			shader.Bind();
 			shader.SetUniform1i("u_Texture", 0);
-
-			// - MVP 
-			{
-				glm::mat4 model = glm::translate(glm::mat4(1), translationA);
-				glm::mat4 view = glm::translate(
-					glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
-					glm::vec3(0, 0, 0)
-				);
-				glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
-				glm::mat4 mvp = proj * view * model;
-				shader.SetUniformMat4f("u_MVP", mvp);
-				renderer.Draw(va, ib, shader);
-			}
-			{
-				glm::mat4 model = glm::translate(glm::mat4(1), translationB);
-				glm::mat4 view = glm::translate(
-					glm::mat4(glm::vec4(1, 0, 0, 0), glm::vec4(0, 1, 0, 0), glm::vec4(0, 0, 1, 0), glm::vec4(1, 1, 1, 1)), //  Equals glm::mat4(1)
-					glm::vec3(0, 0, 0)
-				);
-				glm::mat4 proj = glm::ortho(0.0f, screen_width * 1.0f, 0.0f, screen_height * 1.0f, -1.0f, 1.0f);
-				glm::mat4 mvp = proj * view * model;
-				shader.SetUniformMat4f("u_MVP", mvp);
-				renderer.Draw(va, ib, shader);
-			}
-
-
-			// Dear IMGUI frame
-			ImGui_ImplOpenGL3_NewFrame();
-			ImGui_ImplGlfw_NewFrame();
-			ImGui::NewFrame();
-			ImGui::SliderFloat3("translationA", &translationA.x, 0, screen_width - width);
-			ImGui::SliderFloat3("translationB", &translationB.x, 0, screen_width - width);
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			/* Swap front and back buffers */
 			GLCall(glfwSwapBuffers(window));
