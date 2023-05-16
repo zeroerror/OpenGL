@@ -14,7 +14,7 @@ namespace test {
 		virtual	~Test(){}
 
 		virtual void OnUpdate(float deltaTime) {}
-		virtual void OnRenderer() {}
+		virtual void OnRenderer(const VertexArray& va, const IndexBuffer& ib, Shader& shader) {}
 		virtual void OnImGuiRender() {}
 
 	};

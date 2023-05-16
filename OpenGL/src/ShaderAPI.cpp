@@ -34,8 +34,8 @@ int ShaderAPI::DrawTest() {
 
 	{
 		// Define Vertext Position
-		unsigned int width = 640;
-		unsigned int height = 480;
+		unsigned int width = 800;
+		unsigned int height = 600;
 		int anchorX = width / 2.0f;
 		int anchorY = height / 2.0f;
 		float positions[] = {
@@ -73,8 +73,6 @@ int ShaderAPI::DrawTest() {
 		glm::vec3 translationB = glm::vec3(0, 0, 0);
 		bool showUI = true;
 
-		Renderer renderer;
-
 		// IMGUI Context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -82,15 +80,14 @@ int ShaderAPI::DrawTest() {
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init();
 
-		test::TestClearColor colorTest;
+		test::TestMVP colorTest;
+		colorTest.SetScreen(screen_width, screen_height);
 
 		while (!glfwWindowShouldClose(window)) {
 			GLCall(glfwPollEvents());
-			renderer.Clear();
 
 			colorTest.OnUpdate(0);
-			colorTest.OnRenderer();
-			//renderer.Draw(va, ib, shader);
+			colorTest.OnRenderer(va, ib, shader);
 
 			ImGui_ImplGlfw_NewFrame();
 			ImGui_ImplOpenGL3_NewFrame();

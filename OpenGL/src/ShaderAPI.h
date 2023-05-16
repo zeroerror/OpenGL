@@ -17,7 +17,7 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "Texture.h"
-#include "tests/TestClearColor.h"
+#include "tests/TestMVP.h"
 
 class ShaderAPI {
 
