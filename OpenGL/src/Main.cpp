@@ -103,7 +103,10 @@ int main() {
 		test::TestMenu* testMenu = new test::TestMenu(curTest);
 		curTest = testMenu;
 
-		testMenu->RegisterTest<test::MVPTest>("MVP Test");
+		testMenu->RegisterTest("MVP Test", [&va, &ib, &shader, screen_width, screen_height]() {
+			return new test::MVPTest(&va, &ib, &shader, screen_width, screen_height);
+			}
+		);
 
 		while (!glfwWindowShouldClose(window)) {
 			GLCall(glfwPollEvents());

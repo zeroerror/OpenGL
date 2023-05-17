@@ -4,31 +4,18 @@
 
 namespace test {
 
-	MVPTest::MVPTest()
+	MVPTest::MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height)
 		:m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f },
 		m_TranslationA{ 0, 0, 0 },
 		m_TranslationB{ 0, 0, 0 },
 		m_renderer(),
-		m_va(),
-		m_ib(),
-		m_shader(),
-		m_screen_width(600),
-		m_screen_height(300)
+		m_va(va),
+		m_ib(ib),
+		m_shader(shader),
+		m_screen_width(screen_width),
+		m_screen_height(screen_height)
 	{
 	}
-
-	//MVPTest::MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height)
-	//	:m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f },
-	//	m_TranslationA{ 0, 0, 0 },
-	//	m_TranslationB{ 0, 0, 0 },
-	//	m_renderer(),
-	//	m_va(va),
-	//	m_ib(ib),
-	//	m_shader(shader),
-	//	m_screen_width(screen_width),
-	//	m_screen_height(screen_height)
-	//{
-	//}
 
 	MVPTest::~MVPTest() {
 	

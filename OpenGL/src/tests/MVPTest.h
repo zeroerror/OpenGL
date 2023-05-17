@@ -8,8 +8,7 @@ namespace test {
 
 	class MVPTest:public Test {
 	public:
-		MVPTest();
-		//MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height);
+		MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height);
 		~MVPTest();
 
 		void OnUpdate(float deltaTime) override;
