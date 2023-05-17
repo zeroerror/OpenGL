@@ -6,16 +6,17 @@
 
 namespace test {
 
-	class TestMVP:public Test {
+	class MVPTest:public Test {
 	public:
-		TestMVP();
-		~TestMVP();
+		MVPTest();
+		//MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height);
+		~MVPTest();
 
 		void OnUpdate(float deltaTime) override;
-		void OnRenderer(const VertexArray& va, const IndexBuffer& ib, Shader& shader) override;
+		void OnRender()override;
 		void OnImGuiRender() override;
 
-		void InjectShader(const Shader shader);
+		void BindRender(VertexArray* va, IndexBuffer* ib, Shader* shader);
 		void SetScreen(const int& screen_width, const int& screen_height);
 		glm::mat4 GetMVP(const glm::vec3& translation);
 	private:
@@ -24,7 +25,10 @@ namespace test {
 		glm::vec3 m_TranslationB;
 		int m_screen_width;
 		int m_screen_height;
-		Renderer m_renderer;
+		Renderer* m_renderer;
+		VertexArray* m_va;
+		IndexBuffer* m_ib;
+		Shader* m_shader;
 
 	};
 
