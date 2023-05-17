@@ -8,7 +8,6 @@ namespace test {
 		:m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f },
 		m_TranslationA{ 0, 0, 0 },
 		m_TranslationB{ 0, 0, 0 },
-		m_renderer(),
 		m_va(va),
 		m_ib(ib),
 		m_shader(shader),
@@ -18,29 +17,28 @@ namespace test {
 	}
 
 	MVPTest::~MVPTest() {
-	
+
 	}
 
 	void MVPTest::OnRender() {
 		GLCall(glClearColor(m_ClearColor[0], m_ClearColor[1], m_ClearColor[2], m_ClearColor[3]));
-
-		if (m_renderer != nullptr) {
-			m_renderer->Clear();
-
-			m_shader->Bind();
-			m_shader->SetUniform1i("u_Texture", 0);
-			m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationA));
-			m_shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
-			m_renderer->Draw(m_va, m_ib, m_shader);
-
-			m_shader->Bind();
-			m_shader->SetUniform1i("u_Texture", 0);
-			m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationB));
-			m_shader->SetUniform4f("u_BlendColor", 1.0f, 0.0f, 0.0f, 0.8f);
-			m_renderer->Draw(m_va, m_ib, m_shader);
-		}
-
 		GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+		Renderer renderer;
+		renderer.Clear();
+
+		m_shader->Bind();
+		m_shader->SetUniform1i("u_Texture", 0);
+		m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationA));
+		m_shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
+		renderer.Draw(m_va, m_ib, m_shader);
+
+		m_shader->Bind();
+		m_shader->SetUniform1i("u_Texture", 0);
+		m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationB));
+		m_shader->SetUniform4f("u_BlendColor", 1.0f, 0.0f, 0.0f, 0.8f);
+		renderer.Draw(m_va, m_ib, m_shader);
+
 	}
 
 	void MVPTest::OnUpdate(float deltaTime) {

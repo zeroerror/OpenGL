@@ -24,7 +24,6 @@ namespace test {
 		glm::vec3 m_TranslationB;
 		int m_screen_width;
 		int m_screen_height;
-		Renderer* m_renderer;
 		VertexArray* m_va;
 		IndexBuffer* m_ib;
 		Shader* m_shader;
