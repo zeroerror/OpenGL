@@ -1,13 +1,15 @@
 #include "Renderer.h"
 #include "VertexArray.h"
 
-VertexArray::VertexArray()
-	:m_RendererID(0) {
-	GLCall(glGenVertexArrays(1, &m_RendererID));
-}
+VertexArray::VertexArray() {}
 
 VertexArray::~VertexArray() {
 	GLCall(glDeleteVertexArrays(1, &m_RendererID));
+}
+
+void VertexArray::Ctor() {
+	GLCall(glGenVertexArrays(1, &m_RendererID));
+	GLCall(glBindVertexArray(m_RendererID));
 }
 
 void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) {

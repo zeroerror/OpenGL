@@ -9,6 +9,7 @@ private:
 public:
 	VertexArray();
 	~VertexArray();
+	void Ctor();
 
 	void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
 	void Bind() const;

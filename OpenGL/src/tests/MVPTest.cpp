@@ -4,20 +4,54 @@
 
 namespace test {
 
-	MVPTest::MVPTest(VertexArray* va, IndexBuffer* ib, Shader* shader, const int& screen_width, const int& screen_height)
-		:m_ClearColor{ 0.2f, 0.3f, 0.8f, 1.0f },
-		m_TranslationA{ 0, 0, 0 },
-		m_TranslationB{ 0, 0, 0 },
-		m_va(va),
-		m_ib(ib),
-		m_shader(shader),
-		m_screen_width(screen_width),
-		m_screen_height(screen_height)
-	{
-	}
+	MVPTest::MVPTest() {}
 
-	MVPTest::~MVPTest() {
+	MVPTest::~MVPTest() {}
 
+	void MVPTest::Ctor(const int& screen_width, const int& screen_height) {
+		m_screen_width = screen_width;
+		m_screen_height = screen_height;
+		{
+			// Vertext Positions
+			int anchorX = screen_width / 2.0f;
+			int anchorY = screen_height / 2.0f;
+			float positions[16] = {
+			   -anchorX,-anchorY,0,0,
+			   screen_width - anchorX,-anchorY,1,0,
+			   screen_width - anchorX,screen_height - anchorY ,1,1,
+			   -anchorX,screen_height - anchorY,0,1,
+			};
+			std::copy(positions, positions + 15, m_Positions);
+
+			// Vertext Indices
+			unsigned int indices[6] = {
+			   0, 1, 2,
+			   2, 3, 0 };
+			std::copy(indices, indices + 5, m_Indices);
+		}
+
+		// Vertex Array
+		m_va = VertexArray();
+		m_va.Ctor();
+		m_vb = VertexBuffer();
+		m_vb.Ctor(m_Positions, 4 * 4 * sizeof(float));
+		m_vb_layout = VertexBufferLayout();
+		m_vb_layout.Push<float>(2);
+		m_vb_layout.Push<float>(2);
+		m_va.AddBuffer(m_vb, m_vb_layout);
+
+		// Index Buffer
+		m_ib = IndexBuffer();
+		m_ib.Ctor(m_Indices, 6);
+
+		// Shader
+		m_Shader = Shader();
+		m_Shader.Ctor("res/shader/Basic.shader");
+
+		// Texture 
+		m_Texture = Texture();
+		m_Texture.Ctor("res/textures/room.png");
+		m_Texture.Bind();
 	}
 
 	void MVPTest::OnRender() {
@@ -27,17 +61,17 @@ namespace test {
 		Renderer renderer;
 		renderer.Clear();
 
-		m_shader->Bind();
-		m_shader->SetUniform1i("u_Texture", 0);
-		m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationA));
-		m_shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
-		renderer.Draw(m_va, m_ib, m_shader);
+		m_Shader.Bind();
+		m_Shader.SetUniform1i("u_Texture", 0);
+		m_Shader.SetUniformMat4f("u_MVP", GetMVP(m_TranslationA));
+		m_Shader.SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
+		renderer.Draw(&m_va, &m_ib, &m_Shader);
 
-		m_shader->Bind();
-		m_shader->SetUniform1i("u_Texture", 0);
-		m_shader->SetUniformMat4f("u_MVP", GetMVP(m_TranslationB));
-		m_shader->SetUniform4f("u_BlendColor", 1.0f, 0.0f, 0.0f, 0.8f);
-		renderer.Draw(m_va, m_ib, m_shader);
+		m_Shader.Bind();
+		m_Shader.SetUniform1i("u_Texture", 0);
+		m_Shader.SetUniformMat4f("u_MVP", GetMVP(m_TranslationB));
+		m_Shader.SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
+		renderer.Draw(&m_va, &m_ib, &m_Shader);
 
 	}
 
@@ -46,10 +80,10 @@ namespace test {
 	}
 
 
-	void MVPTest::BindRender(VertexArray* va, IndexBuffer* ib, Shader* shader) {
-		this->m_va = va;
-		this->m_ib = ib;
-		this->m_shader = shader;
+	void MVPTest::BindRender(VertexArray va, IndexBuffer ib, Shader shader) {
+		m_va = va;
+		m_ib = ib;
+		m_Shader = shader;
 	}
 
 	void MVPTest::OnImGuiRender() {

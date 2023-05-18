@@ -51,45 +51,6 @@ int main() {
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	{
-		// Define Vertext Position
-		unsigned int width = 800;
-		unsigned int height = 600;
-		int anchorX = width / 2.0f;
-		int anchorY = height / 2.0f;
-		float positions[] = {
-			-anchorX,-anchorY,0,0,
-			width - anchorX,-anchorY,1,0,
-			width - anchorX,height - anchorY ,1,1,
-			-anchorX,height - anchorY,0,1,
-		};
-
-		unsigned int indices[] = {
-			0, 1, 2,
-			2, 3, 0 };
-
-		// Vertex Array
-		VertexArray va;
-		VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-		VertexBufferLayout layout;
-
-		layout.Push<float>(2);
-		layout.Push<float>(2);
-		va.AddBuffer(vb, layout);
-
-		// Index Buffer
-		IndexBuffer ib(indices, 6);
-
-		// Shader
-		Shader shader("res/shader/Basic.shader");
-
-		// Texture 
-		Texture texture("res/textures/room.png");
-		texture.Bind();
-
-		// Args
-		glm::vec3 translationA = glm::vec3(0, 0, 0);
-		glm::vec3 translationB = glm::vec3(0, 0, 0);
-		bool showUI = true;
 
 		// IMGUI Context
 		IMGUI_CHECKVERSION();
@@ -103,8 +64,10 @@ int main() {
 		test::TestMenu* testMenu = new test::TestMenu(curTest);
 		curTest = testMenu;
 
-		testMenu->RegisterTest("MVP Test", [&va, &ib, &shader, screen_width, screen_height]() {
-			return new test::MVPTest(&va, &ib, &shader, screen_width, screen_height);
+		testMenu->RegisterTest("MVP Test", [screen_width, screen_height]() {
+			test::MVPTest* mvpTest = new test::MVPTest();
+			mvpTest->Ctor(screen_width, screen_height);
+			return mvpTest;
 			}
 		);
 
