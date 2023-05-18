@@ -31,8 +31,8 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	const unsigned int screen_width = 640;
-	const unsigned int screen_height = 480;
+	int screen_width = 640;
+	int screen_height = 480;
 	window = glfwCreateWindow(screen_width, screen_height, "My OpenGL Window", NULL, NULL);
 	if (!window) {
 		GLCall(glfwTerminate());

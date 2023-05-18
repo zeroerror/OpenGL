@@ -24,6 +24,7 @@ Shader::~Shader() {
 void Shader::Ctor(const std::string& filePath) {
 	ShaderProgramSource source = ParseShader(filePath);
 	m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
+	GLCall(glUseProgram(m_RendererID));
 }
 
 ShaderProgramSource Shader::ParseShader(const std::string& filePath) {

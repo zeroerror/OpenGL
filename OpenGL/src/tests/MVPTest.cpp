@@ -21,13 +21,13 @@ namespace test {
 			   screen_width - anchorX,screen_height - anchorY ,1,1,
 			   -anchorX,screen_height - anchorY,0,1,
 			};
-			std::copy(positions, positions + 15, m_Positions);
+			std::copy(positions, positions + 16, m_Positions);
 
 			// Vertext Indices
 			unsigned int indices[6] = {
 			   0, 1, 2,
 			   2, 3, 0 };
-			std::copy(indices, indices + 5, m_Indices);
+			std::copy(indices, indices + 6, m_Indices);
 		}
 
 		// Vertex Array
@@ -50,7 +50,7 @@ namespace test {
 
 		// Texture 
 		m_Texture = Texture();
-		m_Texture.Ctor("res/textures/room.png");
+		m_Texture.Ctor("res/textures/jerry.png");
 		m_Texture.Bind();
 	}
 
@@ -103,7 +103,7 @@ namespace test {
 			glm::mat4(1),
 			glm::vec3(0, 0, 0)
 		);
-		glm::mat4 proj = glm::ortho(0.0f, m_screen_width * 1.0f, 0.0f, m_screen_height * 1.0f);
+		glm::mat4 proj = glm::ortho(0.0f, m_screen_width * 2.0f, 0.0f, m_screen_height * 2.0f);
 		glm::mat4 mvp = proj * view * model;
 		return mvp;
 	}
