@@ -14,6 +14,7 @@
 
 #include "Shader.h"
 #include "Renderer.h"
+#include "GLDebug.h"
 
 Shader::Shader():m_RendererID(0) {}
 

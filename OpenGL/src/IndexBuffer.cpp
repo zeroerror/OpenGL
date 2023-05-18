@@ -1,5 +1,4 @@
 #include "IndexBuffer.h"
-#include "Renderer.h"
 
 IndexBuffer::IndexBuffer()
 	: m_count(0),m_RendererID(0) {

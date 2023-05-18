@@ -1,22 +1,12 @@
-#pragma once
+#include "tests/MVPTest.h"
+#include "tests/Camera2DTest.h"
+#include "GLDebug.h"
 
-#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
-
-#include "Renderer.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
-#include "VertexBufferLayout.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "tests/MVPTest.h"
 
 int main() {
 	GLFWwindow* window;
@@ -68,6 +58,13 @@ int main() {
 			test::MVPTest* mvpTest = new test::MVPTest();
 			mvpTest->Ctor(screen_width, screen_height);
 			return mvpTest;
+			}
+		);
+
+		testMenu->RegisterTest("Camera2D Test", [window, screen_width, screen_height]() {
+			test::Camera2DTest* camTest = new test::Camera2DTest();
+			camTest->Ctor(window, screen_width, screen_height);
+			return camTest;
 			}
 		);
 

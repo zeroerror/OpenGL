@@ -1,6 +1,8 @@
-#include "MVPTest.h"
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_glfw.h>
+
+#include "MVPTest.h"
+#include "GLDebug.h"
 
 namespace test {
 
@@ -75,7 +77,7 @@ namespace test {
 
 	}
 
-	void MVPTest::OnUpdate(float deltaTime) {
+	void MVPTest::OnUpdate(const float& deltaTime) {
 
 	}
 

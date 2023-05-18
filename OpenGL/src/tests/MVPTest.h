@@ -1,9 +1,9 @@
 #pragma once 
 
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "Test.h"
 #include "Texture.h"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace test {
 
@@ -13,7 +13,7 @@ namespace test {
 		~MVPTest();
 		void Ctor(const int& screen_width, const int& screen_height);
 
-		void OnUpdate(float deltaTime) override;
+		void OnUpdate(const float& deltaTime) override;
 		void OnRender()override;
 		void OnImGuiRender() override;
 
