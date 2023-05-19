@@ -30,18 +30,18 @@ namespace test {
 		m_templateModel = TemplateModel();
 		{
 			// Vertext Positions
-			int anchorX = screen_width / 2.0f;
-			int anchorY = screen_height / 2.0f;
+			int anchorX = 0;
+			int anchorY = 0;
+			int halfWidth = 200;
+			int halfHeight = 200;
 			float positions[16] = {
-			   -anchorX,-anchorY,0,0,
-			   screen_width - anchorX,-anchorY,1,0,
-			   screen_width - anchorX,screen_height - anchorY ,1,1,
-			   -anchorX,screen_height - anchorY,0,1,
+			   -halfWidth + anchorX,-halfHeight + anchorY,0,0,
+			   halfWidth + anchorX,-halfHeight + anchorY,1,0,
+			   halfWidth + anchorX ,halfHeight + anchorY, 1,1,
+			   -halfWidth + anchorX,halfHeight + anchorY ,0,1,
 			};
 			m_templateModel.vertexArray = new float[16];
-			m_templateModel.vertexArrayTemp = new float[16];
 			std::copy(positions, positions + 16, m_templateModel.vertexArray);
-			std::copy(positions, positions + 16, m_templateModel.vertexArrayTemp);
 			m_templateModel.vertexCount = 16;
 
 			// Vertext Indices
@@ -78,7 +78,7 @@ namespace test {
 
 		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-			glm::quat rot = glm::angleAxis(glm::radians(-1.0f), glm::vec3(0, 1, 0));
+			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
 			glm::quat newRot = rot * m_templateModel.transform.rotation;
 			m_templateModel.transform.rotation = newRot;
 		}

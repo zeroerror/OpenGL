@@ -14,7 +14,6 @@ public:
 	Transform transform;
 	Texture* texture;
 	float* vertexArray;
-	float* vertexArrayTemp;
 	unsigned int vertexCount;
 	unsigned int* indiceArray;
 	unsigned int indiceCount;

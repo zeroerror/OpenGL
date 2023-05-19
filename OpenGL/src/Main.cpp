@@ -78,7 +78,7 @@ int main() {
 			ImGui::NewFrame();
 
 			if (curTest) {
-				curTest->OnUpdate(0.0f);
+				curTest->OnUpdate(0.1f);
 				curTest->OnRender();
 				ImGui::Begin("Test");
 				if (curTest != testMenu && ImGui::Button("<-")) {
