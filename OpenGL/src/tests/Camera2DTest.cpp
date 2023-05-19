@@ -8,29 +8,19 @@ namespace test {
 	Camera2DTest::Camera2DTest() {}
 	Camera2DTest::~Camera2DTest() {}
 
-	void KeyPressCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-		Camera2DTest* camera2DTest = static_cast<Camera2DTest*>(glfwGetWindowUserPointer(window));
-		if (camera2DTest && key == GLFW_KEY_A && action == GLFW_PRESS) {
-			// 左键
-			camera2DTest->m_camera.transform.position += glm::vec3(1, 0, 0);
-			glm::vec3 pos = camera2DTest->m_camera.transform.position;
-			std::cout << "m_camera.transform.position " << pos.x << "," << pos.y << "," << pos.z << std::endl;
-		}
-	}
-
 	void Camera2DTest::Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height) {
 
 		// ====== Camera
-		m_camera = Camera2D();
-		m_camera.width = screen_width;
-		m_camera.height = screen_height;
+		camera = Camera2D();
+		camera.width = screen_width;
+		camera.height = screen_height;
+		this->window = window;
 
-		static glm::vec3 pos;
-
-		// 注册硬件输入事件
-		glfwSetWindowUserPointer(window, this); // 设置窗口的用户指针
-		glfwSetKeyCallback(window, KeyPressCallback);
+		// 硬件输入事件注册: 设置窗口的用户指针
+		glfwSetWindowUserPointer(window, this);
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
+			Camera2DTest* camera2DTest = static_cast<Camera2DTest*>(glfwGetWindowUserPointer(window));
+
 		});
 
 		m_screen_width = screen_width;
@@ -69,11 +59,36 @@ namespace test {
 	}
 
 	void Camera2DTest::OnUpdate(const float& deltaTime) {
-		m_camera.Update(deltaTime);
+		if (glfwGetKey(window, GLFW_KEY_A)) {
+			camera.transform.position += glm::vec3(-1, 0, 0) * moveSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D)) {
+			camera.transform.position += glm::vec3(1, 0, 0) * moveSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_W)) {
+			camera.transform.position += glm::vec3(0, 1, 0) * moveSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S)) {
+			camera.transform.position += glm::vec3(0, -1, 0) * moveSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+			float angle = glm::radians(-0.01f);
+			glm::quat rot = glm::angleAxis(angle, glm::vec3(0, 1, 0));
+			glm::quat newRot = rot * camera.transform.rotation;
+			camera.transform.rotation = newRot;
+		}
+		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+			float angle = glm::radians(0.01f);
+			glm::quat rot = glm::angleAxis(angle, glm::vec3(0, 1, 0));
+			glm::quat newRot = rot * camera.transform.rotation;
+			camera.transform.rotation = newRot;
+		}
+
+		camera.Update(deltaTime);
 	}
 
 	void Camera2DTest::OnRender() {
-		m_camera.Render(m_templateModel);
+		camera.Render(m_templateModel);
 	}
 
 }

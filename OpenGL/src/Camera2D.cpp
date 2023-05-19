@@ -4,14 +4,14 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <GLFW/glfw3.h>
 
-Camera2D::Camera2D() {
-}
+Camera2D::Camera2D() {}
 Camera2D::~Camera2D() {}
 
 void Camera2D::Update(const float& dt) {
-	
+
 }
 
 void Camera2D::Render(TemplateModel& model) {
@@ -44,10 +44,10 @@ void Camera2D::Render(TemplateModel& model) {
 	renderer.Draw(&vao, &ibo, shader);
 }
 
-glm::mat4 Camera2D::GetMVPMatrix(const Transform& transform) {
-	glm::vec3 pos = transform.position;
-	glm::quat rot = transform.rotation;
-	glm::mat4 model = glm::translate(glm::mat4(1), pos);
+glm::mat4 Camera2D::GetMVPMatrix(const Transform& modelTrans) {
+	glm::vec3 pos = modelTrans.position;
+	glm::quat rot = modelTrans.rotation;
+	glm::mat4 model = glm::toMat4(transform.rotation) * glm::translate(glm::mat4(1), pos);
 	glm::mat4 view = glm::translate(
 		glm::mat4(1),
 		transform.position

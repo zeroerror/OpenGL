@@ -1,8 +1,7 @@
 #include "Transform.h"
 
-Transform::Transform() 
-:position(),rotation()
-{
+Transform::Transform()
+	: position(0.0f), rotation(1.0f, 0.0f, 0.0f, 0.0f) {
 
 }
 

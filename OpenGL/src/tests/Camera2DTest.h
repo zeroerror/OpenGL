@@ -20,7 +20,9 @@ namespace test {
 		void Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height);
 		//void KeyPressCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	public:
-		Camera2D m_camera;
+		Camera2D camera;
+		GLFWwindow* window;
+		const float moveSpeed = 10;
 
 	private:
 		glm::vec3 m_TranslationA;
