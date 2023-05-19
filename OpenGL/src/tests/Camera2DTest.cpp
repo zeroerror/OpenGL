@@ -88,7 +88,6 @@ namespace test {
 			m_templateModel.transform.rotation = newRot;
 		}
 
-		m_templateModel.Update(deltaTime);
 		camera.Update(deltaTime);
 	}
 

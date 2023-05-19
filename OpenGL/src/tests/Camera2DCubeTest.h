@@ -6,13 +6,14 @@
 
 #include "Test.h"
 #include "Camera2D.h"
+#include <Cube.h>
 
 namespace test {
 
-	class Camera2DTest:public Test {
+	class Camera2DCubeTest:public Test {
 	public:
-		Camera2DTest();
-		~Camera2DTest();
+		Camera2DCubeTest();
+		~Camera2DCubeTest();
 
 		void OnRender() override;
 		void OnUpdate(const float& deltaTime) override;
@@ -28,7 +29,7 @@ namespace test {
 		glm::vec3 m_TranslationB;
 		int m_screen_width;
 		int m_screen_height;
-		TemplateModel m_templateModel;
+		Cube m_cube;
 	};
 
 }

@@ -45,7 +45,39 @@ void Camera2D::Render(TemplateModel& mod) {
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(modTrans));
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.rotation));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
-	shader->SetUniform1f("u_Time", u_Time);
+	renderer.Draw(&vao, &ibo, shader);
+}
+
+void Camera2D::Render(Cube& cube) {
+	GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+	Renderer renderer;
+	renderer.Clear();
+
+	Shader* shader = cube.shader;
+	float* vertexArray = cube.vertexArray;
+	unsigned int* indiceArray = cube.indiceArray;
+
+	VertexArray vao = VertexArray();
+	vao.Ctor();
+	VertexBuffer vbo = VertexBuffer();
+	vbo.Ctor(vertexArray,5 * 8 * sizeof(float));
+	VertexBufferLayout vb_layout = VertexBufferLayout();
+	vb_layout.Push<float>(3);
+	vb_layout.Push<float>(2);
+	vao.AddBuffer(vbo, vb_layout);
+
+	// Index Buffer
+	IndexBuffer	ibo = IndexBuffer();
+	ibo.Ctor(indiceArray, 36);
+
+	//  - Shader
+	Transform modTrans = cube.transform;
+	shader->Bind();
+	shader->SetUniform1i("u_Texture", 0);
+	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(modTrans));
+	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.rotation));
+	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	renderer.Draw(&vao, &ibo, shader);
 }
 

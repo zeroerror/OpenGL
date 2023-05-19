@@ -1,5 +1,6 @@
 #include "tests/MVPTest.h"
 #include "tests/Camera2DTest.h"
+#include "tests/Camera2DCubeTest.h"
 #include "GLDebug.h"
 
 #include <GL/glew.h>
@@ -21,8 +22,8 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* Create a windowed mode window and its OpenGL context */
-	int screen_width = 640;
-	int screen_height = 480;
+	int screen_width = 1280;
+	int screen_height = 1080;
 	window = glfwCreateWindow(screen_width, screen_height, "My OpenGL Window", NULL, NULL);
 	if (!window) {
 		GLCall(glfwTerminate());
@@ -58,14 +59,21 @@ int main() {
 			test::MVPTest* mvpTest = new test::MVPTest();
 			mvpTest->Ctor(screen_width, screen_height);
 			return mvpTest;
-			}
+		}
 		);
 
 		testMenu->RegisterTest("Camera2D Test", [window, screen_width, screen_height]() {
-			test::Camera2DTest* camTest = new test::Camera2DTest();
-			camTest->Ctor(window, screen_width, screen_height);
-			return camTest;
-			}
+			test::Camera2DTest* test = new test::Camera2DTest();
+			test->Ctor(window, screen_width, screen_height);
+			return test;
+		}
+		);
+
+		testMenu->RegisterTest("Camera2DCube Test", [window, screen_width, screen_height]() {
+			test::Camera2DCubeTest* test = new test::Camera2DCubeTest();
+			test->Ctor(window, screen_width, screen_height);
+			return test;
+		}
 		);
 
 		while (!glfwWindowShouldClose(window)) {

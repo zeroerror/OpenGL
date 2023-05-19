@@ -8,8 +8,6 @@ public:
 	TemplateModel();
 	~TemplateModel();
 
-	void Update(const float& dt);
-
 public:
 	Transform transform;
 	Texture* texture;
