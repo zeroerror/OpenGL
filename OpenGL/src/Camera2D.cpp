@@ -14,15 +14,15 @@ void Camera2D::Update(const float& dt) {
 
 }
 
-void Camera2D::Render(TemplateModel& model) {
+void Camera2D::Render(TemplateModel& mod) {
 	GLCall(glClear(GL_COLOR_BUFFER_BIT));
 
 	Renderer renderer;
 	renderer.Clear();
 
-	Shader* shader = model.shader;
-	float* vertexArray = model.vertexArray;
-	unsigned int* indiceArray = model.indiceArray;
+	Shader* shader = mod.shader;
+	float* vertexArray = mod.vertexArray;
+	unsigned int* indiceArray = mod.indiceArray;
 
 	VertexArray vao = VertexArray();
 	vao.Ctor();
@@ -39,18 +39,19 @@ void Camera2D::Render(TemplateModel& model) {
 
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
-	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(transform));
+	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(mod.tranform));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
 	renderer.Draw(&vao, &ibo, shader);
 }
 
-glm::mat4 Camera2D::GetMVPMatrix(const Transform& modelTrans) {
-	glm::vec3 pos = modelTrans.position;
-	glm::quat rot = modelTrans.rotation;
+glm::mat4 Camera2D::GetMVPMatrix(const Transform& modTrans) {
+	glm::vec3 pos = modTrans.position;
+	glm::quat rot = modTrans.rotation;
+
 	glm::mat4 model = glm::toMat4(transform.rotation) * glm::translate(glm::mat4(1), pos);
 	glm::mat4 view = glm::translate(
 		glm::mat4(1),
-		transform.position
+		-transform.position
 	);
 	glm::mat4 proj = glm::ortho(0.0f, width * 2.0f, 0.0f, height * 2.0f);
 	glm::mat4 mvp = proj * view * model;
