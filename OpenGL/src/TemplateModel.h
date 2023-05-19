@@ -8,11 +8,16 @@ public:
 	TemplateModel();
 	~TemplateModel();
 
+	void Update(const float& dt);
+
 public:
-	Transform tranform;
+	Transform transform;
 	Texture* texture;
 	float* vertexArray;
+	float* vertexArrayTemp;
+	unsigned int vertexCount;
 	unsigned int* indiceArray;
+	unsigned int indiceCount;
 	Shader* shader;
 
 };

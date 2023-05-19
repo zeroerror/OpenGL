@@ -21,7 +21,7 @@ void Camera2D::Render(TemplateModel& mod) {
 	renderer.Clear();
 
 	Shader* shader = mod.shader;
-	float* vertexArray = mod.vertexArray;
+	float* vertexArray = mod.vertexArrayTemp;
 	unsigned int* indiceArray = mod.indiceArray;
 
 	VertexArray vao = VertexArray();
@@ -39,7 +39,7 @@ void Camera2D::Render(TemplateModel& mod) {
 
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
-	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(mod.tranform));
+	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(mod.transform));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 0.8f);
 	renderer.Draw(&vao, &ibo, shader);
 }

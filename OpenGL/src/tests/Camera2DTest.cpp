@@ -39,7 +39,10 @@ namespace test {
 			   -anchorX,screen_height - anchorY,0,1,
 			};
 			m_templateModel.vertexArray = new float[16];
+			m_templateModel.vertexArrayTemp = new float[16];
 			std::copy(positions, positions + 16, m_templateModel.vertexArray);
+			std::copy(positions, positions + 16, m_templateModel.vertexArrayTemp);
+			m_templateModel.vertexCount = 16;
 
 			// Vertext Indices
 			unsigned int indices[6] = {
@@ -47,6 +50,7 @@ namespace test {
 			   2, 3, 0 };
 			m_templateModel.indiceArray = new unsigned int[6];
 			std::copy(indices, indices + 6, m_templateModel.indiceArray);
+			m_templateModel.indiceCount = 6;
 		}
 		// - Shader
 		m_templateModel.shader = new Shader();
@@ -71,19 +75,20 @@ namespace test {
 		if (glfwGetKey(window, GLFW_KEY_S)) {
 			camera.transform.position += glm::vec3(0, -1, 0) * moveSpeed;
 		}
+
+		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-			float angle = glm::radians(-0.01f);
-			glm::quat rot = glm::angleAxis(angle, glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * camera.transform.rotation;
-			camera.transform.rotation = newRot;
+			glm::quat rot = glm::angleAxis(glm::radians(-1.0f), glm::vec3(0, 1, 0));
+			glm::quat newRot = rot * m_templateModel.transform.rotation;
+			m_templateModel.transform.rotation = newRot;
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-			float angle = glm::radians(0.01f);
-			glm::quat rot = glm::angleAxis(angle, glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * camera.transform.rotation;
-			camera.transform.rotation = newRot;
+			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, 1, 0));
+			glm::quat newRot = rot * m_templateModel.transform.rotation;
+			m_templateModel.transform.rotation = newRot;
 		}
 
+		m_templateModel.Update(deltaTime);
 		camera.Update(deltaTime);
 	}
 
