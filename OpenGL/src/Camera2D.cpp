@@ -43,7 +43,7 @@ void Camera2D::Render(TemplateModel& mod) {
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix(modTrans));
-	shader->SetUniformMat4f("u_ModRotation", glm::toMat4(modTrans.rotation));
+	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.rotation));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	shader->SetUniform1f("u_Time", u_Time);
 	renderer.Draw(&vao, &ibo, shader);
