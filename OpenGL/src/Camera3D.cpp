@@ -40,9 +40,12 @@ void Camera3D::Render(TemplateModel& mod) {
 
 	//  - Shader
 	Transform modTrans = mod.transform;
+	glm::vec3 modPos = modTrans.GetPosition();
+	std::cout << "modPos " << modPos.z << std::endl;
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
+	shader->SetUniform3f("u_ModPosition", modPos.x, modPos.y, modPos.z);
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.GetRotation()));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	renderer.Draw(&vao, &ibo, shader);
@@ -76,10 +79,12 @@ void Camera3D::Render(Cube& cube) {
 
 	//  - Shader
 	Transform modTrans = cube.transform;
+	glm::vec3 modPos = modTrans.GetPosition();
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
 	//shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Perspective(modTrans));
+	shader->SetUniform3f("u_ModPosition", modPos.x, modPos.y, modPos.z);
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.GetRotation()));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	renderer.Draw(&vao, &ibo, shader);
@@ -88,7 +93,7 @@ void Camera3D::Render(Cube& cube) {
 glm::mat4 Camera3D::GetMVPMatrix_Ortho(const Transform& modTrans) {
 	glm::vec3 pos = modTrans.GetPosition();
 	glm::quat rot = modTrans.GetRotation();
-	glm::mat4 model = glm::toMat4(rot) * glm::translate(glm::mat4(1), pos);
+	glm::mat4 model = glm::translate(glm::mat4(1), pos);
 
 	glm::mat4 view = glm::translate(glm::mat4(1), -transform.GetPosition());
 
@@ -107,7 +112,7 @@ glm::mat4 Camera3D::GetMVPMatrix_Perspective(const Transform& modTrans) {
 	glm::quat rot = modTrans.GetRotation();
 	glm::vec3 cameraPos = transform.GetPosition();
 
-	glm::mat4 model = glm::toMat4(rot) * glm::translate(glm::mat4(1), pos);
+	glm::mat4 model = glm::translate(glm::mat4(1), pos);
 
 	//glm::vec3 cameraTarget = cameraPos + transform.GetForward();
 	//glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);

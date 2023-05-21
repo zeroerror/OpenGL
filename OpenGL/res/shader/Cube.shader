@@ -8,11 +8,10 @@ out vec2 v_TexCoord;
 
 uniform mat4 u_MVP;
 uniform mat4 u_ModRotationMatrix;
+uniform vec3 u_ModPosition;
 
 void main() {
-	vec4 finalPos = u_MVP * u_ModRotationMatrix * position;
-
-	gl_Position = finalPos;
+	gl_Position = u_MVP * u_ModRotationMatrix * position;
 	v_TexCoord = texCoord;
 }
 

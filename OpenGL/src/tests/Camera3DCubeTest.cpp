@@ -34,7 +34,7 @@ namespace test {
 
 		// ====== Cube
 		m_cube = Cube(1.5f, 2.0f, 1.0f);
-		m_cube.transform.SetPosition(glm::vec3(0, 0, 0));
+		m_cube.transform.SetPosition(glm::vec3(2, 0, 0));
 
 		// - Shader
 		m_cube.shader = new Shader();
