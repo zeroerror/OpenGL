@@ -16,10 +16,12 @@ public:
 
 	glm::vec3 GetForward() const;
 	glm::vec3 GetUp() const;
+	glm::vec3 GetRight() const;
 
 private:
 	glm::vec3 m_position;
 	glm::quat m_rotation;
-	glm::vec3 m_up;
 	glm::vec3 m_forward;
+	glm::vec3 m_up;
+	glm::vec3 m_right;
 };

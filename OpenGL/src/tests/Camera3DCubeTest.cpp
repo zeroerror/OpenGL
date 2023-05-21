@@ -24,7 +24,8 @@ namespace test {
 			Camera3DCubeTest* camera3DCubeTest = static_cast<Camera3DCubeTest*>(glfwGetWindowUserPointer(window));
 			Transform& camTrans = camera3DCubeTest->camera.transform;
 			glm::vec3 pos = camTrans.GetPosition();
-			pos.z += yoffset;
+			glm::vec3 forward = camTrans.GetForward();
+			pos += forward * static_cast<float>(yoffset * camera3DCubeTest->moveSpeed);
 			camTrans.SetPosition(pos);
 			std::cout << "camTrans pos " << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
 			});
@@ -33,55 +34,67 @@ namespace test {
 		m_screen_height = screen_height;
 
 		// ====== Cube
-		m_cube = Cube(1.5f, 2.0f, 1.0f);
-		m_cube.transform.SetPosition(glm::vec3(2, 0, 0));
+		m_cube1 = CreateCube(1.5f, 2.0f, 1.0f);
+		m_cube1.transform.SetPosition(glm::vec3(0, 0, 5));
+
+		//m_cube2 = CreateCube(2.0f, 3.0f, 1.0f);
+		//m_cube2.transform.SetPosition(glm::vec3(-5, 5, 3));
+	}
+
+	Cube Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
+		Cube cube = Cube(width, height, depth);
 
 		// - Shader
-		m_cube.shader = new Shader();
-		m_cube.shader->Ctor("res/shader/Cube.shader");
-		m_cube.shader->Bind();
+		cube.shader = new Shader();
+		cube.shader->Ctor("res/shader/Cube.shader");
+		cube.shader->Bind();
 		// - Texture 
-		m_cube.texture = new Texture();
-		m_cube.texture->Ctor("res/textures/jerry.png");
-		m_cube.texture->Bind();
+		cube.texture = new Texture();
+		cube.texture->Ctor("res/textures/jerry.png");
+		cube.texture->Bind();
+		return cube;
 	}
 
 	void Camera3DCubeTest::OnUpdate(const float& deltaTime) {
 		// 相机移动
 		Transform& camTrans = camera.transform;
 		if (glfwGetKey(window, GLFW_KEY_A)) {
-			camTrans.SetPosition(camTrans.GetPosition() + glm::vec3(-1, 0, 0) * moveSpeed);
+			glm::vec3 right = camTrans.GetRight();
+			camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D)) {
-			camTrans.SetPosition(camTrans.GetPosition() + glm::vec3(1, 0, 0) * moveSpeed);
+			glm::vec3 right = camTrans.GetRight();
+			camTrans.SetPosition(camTrans.GetPosition() + right * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_W)) {
-			camTrans.SetPosition(camTrans.GetPosition() + glm::vec3(0, 1, 0) * moveSpeed);
+			glm::vec3 up = camTrans.GetUp();
+			camTrans.SetPosition(camTrans.GetPosition() + up * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S)) {
-			camTrans.SetPosition(camTrans.GetPosition() + glm::vec3(0, -1, 0) * moveSpeed);
+			glm::vec3 up = camTrans.GetUp();
+			camTrans.SetPosition(camTrans.GetPosition() + -up * moveSpeed);
 		}
 
 		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
-			glm::quat newRot = rot * m_cube.transform.GetRotation();
-			m_cube.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1.transform.GetRotation();
+			m_cube1.transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * m_cube.transform.GetRotation();
-			m_cube.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1.transform.GetRotation();
+			m_cube1.transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(1, 0, 0));
-			glm::quat newRot = rot * m_cube.transform.GetRotation();
-			m_cube.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1.transform.GetRotation();
+			m_cube1.transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(-1, 0, 0));
-			glm::quat newRot = rot * m_cube.transform.GetRotation();
-			m_cube.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1.transform.GetRotation();
+			m_cube1.transform.SetRotation(newRot);
 		}
 
 		camera.Update(deltaTime);
@@ -89,7 +102,8 @@ namespace test {
 
 	void Camera3DCubeTest::OnRender() {
 		GLCall(glClearColor(0.8f, 0.8f, 0.8f, 1.0f));
-		camera.Render(m_cube);
+		camera.Render(m_cube1);
+		//camera.Render(m_cube2);
 	}
 
 }

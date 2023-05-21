@@ -40,12 +40,9 @@ void Camera3D::Render(TemplateModel& mod) {
 
 	//  - Shader
 	Transform modTrans = mod.transform;
-	glm::vec3 modPos = modTrans.GetPosition();
-	std::cout << "modPos " << modPos.z << std::endl;
 	shader->Bind();
 	shader->SetUniform1i("u_Texture", 0);
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
-	shader->SetUniform3f("u_ModPosition", modPos.x, modPos.y, modPos.z);
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.GetRotation()));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	renderer.Draw(&vao, &ibo, shader);
@@ -84,7 +81,6 @@ void Camera3D::Render(Cube& cube) {
 	shader->SetUniform1i("u_Texture", 0);
 	//shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Perspective(modTrans));
-	shader->SetUniform3f("u_ModPosition", modPos.x, modPos.y, modPos.z);
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.GetRotation()));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	renderer.Draw(&vao, &ibo, shader);
@@ -95,12 +91,16 @@ glm::mat4 Camera3D::GetMVPMatrix_Ortho(const Transform& modTrans) {
 	glm::quat rot = modTrans.GetRotation();
 	glm::mat4 model = glm::translate(glm::mat4(1), pos);
 
-	glm::mat4 view = glm::translate(glm::mat4(1), -transform.GetPosition());
+	glm::vec3 cameraPos = transform.GetPosition();
+	glm::vec3 cameraForward = transform.GetForward();
+	glm::vec3 cameraUp = transform.GetUp();
+	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraForward, cameraUp);
 
 	float halfWidth = 10;
 	float halfHeight = 10;
-	float halfDepth = 10;
-	glm::mat4 proj = glm::orthoRH(-halfWidth, halfWidth, -halfHeight, halfHeight, halfDepth, -halfDepth);
+	float nearPlane = 0.1f;
+	float farPlane = 10.0f;
+	glm::mat4 proj = glm::orthoRH(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 
 	glm::mat4 mvp = proj * view * model;
 
@@ -110,18 +110,13 @@ glm::mat4 Camera3D::GetMVPMatrix_Ortho(const Transform& modTrans) {
 glm::mat4 Camera3D::GetMVPMatrix_Perspective(const Transform& modTrans) {
 	glm::vec3 pos = modTrans.GetPosition();
 	glm::quat rot = modTrans.GetRotation();
-	glm::vec3 cameraPos = transform.GetPosition();
 
 	glm::mat4 model = glm::translate(glm::mat4(1), pos);
 
-	//glm::vec3 cameraTarget = cameraPos + transform.GetForward();
-	//glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-	//glm::mat4 view = glm::lookAt(cameraPos, cameraTarget, cameraUp);
-
-	// 这里不知道为什么这样才可以解决相机上下左右移动的反转
-	cameraPos.x = -cameraPos.x;
-	cameraPos.y = -cameraPos.y;
-	glm::mat4 view = glm::translate(glm::mat4(1), cameraPos);
+	glm::vec3 cameraPos = transform.GetPosition();
+	glm::vec3 cameraForward = transform.GetForward();
+	glm::vec3 cameraUp = transform.GetUp();
+	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraForward, cameraUp);
 
 	float fov = glm::radians(45.0f); // 垂直视场角
 	float aspectRatio = width / height; // 宽高比
