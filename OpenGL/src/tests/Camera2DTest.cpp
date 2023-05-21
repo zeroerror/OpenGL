@@ -11,7 +11,7 @@ namespace test {
 	void Camera2DTest::Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height) {
 
 		// ====== Camera
-		camera = Camera2D();
+		camera = Camera3D();
 		camera.width = screen_width;
 		camera.height = screen_height;
 		this->window = window;
@@ -21,7 +21,7 @@ namespace test {
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
 			Camera2DTest* camera2DTest = static_cast<Camera2DTest*>(glfwGetWindowUserPointer(window));
 
-		});
+			});
 
 		m_screen_width = screen_width;
 		m_screen_height = screen_height;
@@ -30,10 +30,10 @@ namespace test {
 		m_templateModel = TemplateModel();
 		{
 			// Vertext Positions
-			int anchorX = 0;
-			int anchorY = 0;
-			int halfWidth = 200;
-			int halfHeight = 200;
+			float anchorX = 0;
+			float anchorY = 0;
+			float halfWidth = 1.5f;
+			float halfHeight = 2.0f;
 			float positions[16] = {
 			   -halfWidth + anchorX,-halfHeight + anchorY,0,0,
 			   halfWidth + anchorX,-halfHeight + anchorY,1,0,
@@ -64,28 +64,37 @@ namespace test {
 
 	void Camera2DTest::OnUpdate(const float& deltaTime) {
 		if (glfwGetKey(window, GLFW_KEY_A)) {
-			camera.transform.position += glm::vec3(-1, 0, 0) * moveSpeed;
+			glm::vec3 pos = camera.transform.GetPosition();
+			pos += glm::vec3(-1, 0, 0) * moveSpeed;
+			camera.transform.SetPosition(pos);
+
 		}
 		if (glfwGetKey(window, GLFW_KEY_D)) {
-			camera.transform.position += glm::vec3(1, 0, 0) * moveSpeed;
+			glm::vec3 pos = camera.transform.GetPosition();
+			pos += glm::vec3(1, 0, 0) * moveSpeed;
+			camera.transform.SetPosition(pos);
 		}
 		if (glfwGetKey(window, GLFW_KEY_W)) {
-			camera.transform.position += glm::vec3(0, 1, 0) * moveSpeed;
+			glm::vec3 pos = camera.transform.GetPosition();
+			pos += glm::vec3(0, 1, 0) * moveSpeed;
+			camera.transform.SetPosition(pos);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S)) {
-			camera.transform.position += glm::vec3(0, -1, 0) * moveSpeed;
+			glm::vec3 pos = camera.transform.GetPosition();
+			pos += glm::vec3(0, -1, 0) * moveSpeed;
+			camera.transform.SetPosition(pos);
 		}
 
 		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
-			glm::quat newRot = rot * m_templateModel.transform.rotation;
-			m_templateModel.transform.rotation = newRot;
+			glm::quat newRot = rot * m_templateModel.transform.GetRotation();
+			m_templateModel.transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * m_templateModel.transform.rotation;
-			m_templateModel.transform.rotation = newRot;
+			glm::quat newRot = rot * m_templateModel.transform.GetRotation();
+			m_templateModel.transform.SetRotation(newRot);
 		}
 
 		camera.Update(deltaTime);

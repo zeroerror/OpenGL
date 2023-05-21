@@ -8,6 +8,18 @@ public:
 	~Transform();
 
 public:
-	glm::vec3 position;
-	glm::quat rotation;
+	glm::vec3 GetPosition() const;
+	void SetPosition(const glm::vec3& newPosition);
+
+	glm::quat GetRotation() const;
+	void SetRotation(const glm::quat& newRotation);
+
+	glm::vec3 GetForward() const;
+	glm::vec3 GetUp() const;
+
+private:
+	glm::vec3 m_position;
+	glm::quat m_rotation;
+	glm::vec3 m_up;
+	glm::vec3 m_forward;
 };

@@ -1,6 +1,6 @@
 #include "tests/MVPTest.h"
 #include "tests/Camera2DTest.h"
-#include "tests/Camera2DCubeTest.h"
+#include "tests/Camera3DCubeTest.h"
 #include "GLDebug.h"
 
 #include <GL/glew.h>
@@ -70,7 +70,7 @@ int main() {
 		);
 
 		testMenu->RegisterTest("Camera2DCube Test", [window, screen_width, screen_height]() {
-			test::Camera2DCubeTest* test = new test::Camera2DCubeTest();
+			test::Camera3DCubeTest* test = new test::Camera3DCubeTest();
 			test->Ctor(window, screen_width, screen_height);
 			return test;
 		}

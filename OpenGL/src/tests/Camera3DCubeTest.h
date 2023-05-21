@@ -5,24 +5,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Test.h"
-#include "Camera2D.h"
+#include "Camera3D.h"
 #include <Cube.h>
 
 namespace test {
 
-	class Camera2DCubeTest:public Test {
+	class Camera3DCubeTest:public Test {
 	public:
-		Camera2DCubeTest();
-		~Camera2DCubeTest();
+		Camera3DCubeTest();
+		~Camera3DCubeTest();
 
 		void OnRender() override;
 		void OnUpdate(const float& deltaTime) override;
 
 		void Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height);
 	public:
-		Camera2D camera;
+		Camera3D camera;
 		GLFWwindow* window;
-		const float moveSpeed = 10;
+		const float moveSpeed = 0.1f;
 
 	private:
 		glm::vec3 m_TranslationA;

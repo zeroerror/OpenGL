@@ -11,7 +11,6 @@ uniform mat4 u_ModRotationMatrix;
 
 void main() {
 	vec4 finalPos = u_MVP * u_ModRotationMatrix * position;
-	finalPos.z = 0;
 
 	gl_Position = finalPos;
 	v_TexCoord = texCoord;

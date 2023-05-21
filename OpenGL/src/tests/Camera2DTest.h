@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Test.h"
-#include "Camera2D.h"
+#include "Camera3D.h"
 
 namespace test {
 
@@ -19,9 +19,9 @@ namespace test {
 
 		void Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height);
 	public:
-		Camera2D camera;
+		Camera3D camera;
 		GLFWwindow* window;
-		const float moveSpeed = 10;
+		const float moveSpeed = 0.1f;
 
 	private:
 		glm::vec3 m_TranslationA;

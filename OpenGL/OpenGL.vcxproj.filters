@@ -183,11 +183,11 @@
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\Transform.cpp" />
     <ClCompile Include="src\geometry\TemplateModel.cpp" />
-    <ClCompile Include="src\Camera2D.cpp" />
+    <ClCompile Include="src\Camera3D.cpp" />
     <ClCompile Include="src\tests\Camera2DTest.cpp" />
     <ClCompile Include="src\GLDebug.cpp" />
     <ClCompile Include="src\geometry\Cube.cpp" />
-    <ClCompile Include="src\tests\Camera2DCubeTest.cpp" />
+    <ClCompile Include="src\tests\Camera3DCubeTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h" />
@@ -492,10 +492,10 @@
     <ClInclude Include="src\vendor\glm\vector_relational.hpp" />
     <ClInclude Include="src\Transform.h" />
     <ClInclude Include="src\geometry\TemplateModel.h" />
-    <ClInclude Include="src\Camera2D.h" />
+    <ClInclude Include="src\Camera3D.h" />
     <ClInclude Include="src\tests\Camera2DTest.h" />
     <ClInclude Include="src\geometry\Cube.h" />
-    <ClInclude Include="src\tests\Camera2DCubeTest.h" />
+    <ClInclude Include="src\tests\Camera3DCubeTest.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\Users\PC3070\Desktop\jerry.png" />

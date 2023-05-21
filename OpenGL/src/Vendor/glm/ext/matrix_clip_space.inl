@@ -335,7 +335,7 @@ namespace glm
 	}
 
 	template<typename T>
-	GLM_FUNC_QUALIFIER mat<4, 4, T, defaultp> perspective(T fovy, T aspect, T zNear, T zFar)
+	GLM_FUNC_QUALIFIER mat<4, 4, T, defaultp> perspectiveFovRH_NO(T fovy, T aspect, T zNear, T zFar)
 	{
 #		if GLM_CONFIG_CLIP_CONTROL == GLM_CLIP_CONTROL_LH_ZO
 			return perspectiveLH_ZO(fovy, aspect, zNear, zFar);
