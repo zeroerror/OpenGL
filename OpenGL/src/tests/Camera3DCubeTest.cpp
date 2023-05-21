@@ -37,8 +37,8 @@ namespace test {
 		m_cube1 = CreateCube(1.5f, 2.0f, 1.0f);
 		m_cube1.transform.SetPosition(glm::vec3(0, 0, 5));
 
-		//m_cube2 = CreateCube(2.0f, 3.0f, 1.0f);
-		//m_cube2.transform.SetPosition(glm::vec3(-5, 5, 3));
+		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
+		m_cube2.transform.SetPosition(glm::vec3(-2, 0, 3));
 	}
 
 	Cube Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
@@ -58,23 +58,22 @@ namespace test {
 	void Camera3DCubeTest::OnUpdate(const float& deltaTime) {
 		// 相机移动
 		Transform& camTrans = camera.transform;
-		if (glfwGetKey(window, GLFW_KEY_A)) {
+		if (glfwGetKey(window, GLFW_KEY_J)) {
 			glm::vec3 right = camTrans.GetRight();
 			camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_D)) {
+		if (glfwGetKey(window, GLFW_KEY_L)) {
 			glm::vec3 right = camTrans.GetRight();
 			camTrans.SetPosition(camTrans.GetPosition() + right * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_W)) {
+		if (glfwGetKey(window, GLFW_KEY_I)) {
 			glm::vec3 up = camTrans.GetUp();
 			camTrans.SetPosition(camTrans.GetPosition() + up * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_S)) {
+		if (glfwGetKey(window, GLFW_KEY_K)) {
 			glm::vec3 up = camTrans.GetUp();
 			camTrans.SetPosition(camTrans.GetPosition() + -up * moveSpeed);
 		}
-
 		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
@@ -96,14 +95,50 @@ namespace test {
 			glm::quat newRot = rot * m_cube1.transform.GetRotation();
 			m_cube1.transform.SetRotation(newRot);
 		}
+		// 模型移动
+		if (glfwGetKey(window, GLFW_KEY_A)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 right = cubeTrans.GetRight();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + -right * moveSpeed);
+		}
+		if (glfwGetKey(window, GLFW_KEY_D)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 right = cubeTrans.GetRight();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + right * moveSpeed);
+		}
+		if (glfwGetKey(window, GLFW_KEY_W)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 up = cubeTrans.GetUp();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + up * moveSpeed);
+		}
+		if (glfwGetKey(window, GLFW_KEY_S)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 up = cubeTrans.GetUp();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + -up * moveSpeed);
+		}
+		if (glfwGetKey(window, GLFW_KEY_T)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 forward = cubeTrans.GetForward();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + forward * moveSpeed);
+		}
+		if (glfwGetKey(window, GLFW_KEY_G)) {
+			Transform& cubeTrans = m_cube1.transform;
+			glm::vec3 forward = cubeTrans.GetForward();
+			cubeTrans.SetPosition(cubeTrans.GetPosition() + -forward * moveSpeed);
+		}
 
 		camera.Update(deltaTime);
 	}
 
 	void Camera3DCubeTest::OnRender() {
 		GLCall(glClearColor(0.8f, 0.8f, 0.8f, 1.0f));
+		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+		GLCall(glEnable(GL_DEPTH_TEST));
+		GLCall(glDepthFunc(GL_LESS));
+		GLCall(glDepthMask(GL_TRUE));
+
 		camera.Render(m_cube1);
-		//camera.Render(m_cube2);
+		camera.Render(m_cube2);
 	}
 
 }

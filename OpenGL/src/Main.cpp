@@ -69,7 +69,7 @@ int main() {
 		}
 		);
 
-		testMenu->RegisterTest("Camera2DCube Test", [window, screen_width, screen_height]() {
+		testMenu->RegisterTest("Camera3D Cube Test", [window, screen_width, screen_height]() {
 			test::Camera3DCubeTest* test = new test::Camera3DCubeTest();
 			test->Ctor(window, screen_width, screen_height);
 			return test;

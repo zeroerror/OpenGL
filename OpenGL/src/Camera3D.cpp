@@ -49,14 +49,6 @@ void Camera3D::Render(TemplateModel& mod) {
 }
 
 void Camera3D::Render(Cube& cube) {
-	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
-	GLCall(glEnable(GL_DEPTH_TEST));
-	GLCall(glDepthFunc(GL_LESS));
-	GLCall(glDepthMask(GL_TRUE));
-
-	Renderer renderer;
-	renderer.Clear();
-
 	Shader* shader = cube.shader;
 	float* vertexArray = cube.vertexArray;
 	unsigned int* indiceArray = cube.indiceArray;
@@ -83,6 +75,8 @@ void Camera3D::Render(Cube& cube) {
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Perspective(modTrans));
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modTrans.GetRotation()));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
+
+	Renderer renderer;
 	renderer.Draw(&vao, &ibo, shader);
 }
 
