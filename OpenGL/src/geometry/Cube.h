@@ -2,6 +2,8 @@
 #include "Transform.h"
 #include <Texture.h>
 #include <Shader.h>
+#include <VertexArray.h>
+#include <IndexBuffer.h>
 
 class Cube {
 
@@ -10,14 +12,20 @@ public:
 	Cube(float width, float height, float depth);
 	~Cube();
 
+	IndexBuffer* GetIndexBuffer();
 public:
 	Transform transform;
 	Texture* texture;
 	Shader* shader;
+	VertexArray va;
 	float width;
 	float height;
 	float depth;
-	float* vertexArray;
-    static unsigned int indiceArray[];
+private:
+	VertexBuffer m_vb;
+	VertexBufferLayout m_vbLayout;
+	static unsigned int m_indiceArray[];
+	static IndexBuffer m_ib;
+	static bool m_ibInit;
 };
 

@@ -304,9 +304,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\geometry\TemplateModel.cpp" />
     <ClCompile Include="src\tests\Camera3DCubeTest.cpp" />
-    <ClCompile Include="src\tests\Camera2DTest.cpp" />
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\tests\MVPTest.cpp" />
     <ClCompile Include="src\tests\MVPTest.h" />
@@ -331,9 +329,7 @@
     <ClInclude Include="src\GLDebug.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\geometry\TemplateModel.h" />
     <ClInclude Include="src\tests\Camera3DCubeTest.h" />
-    <ClInclude Include="src\tests\Camera2DTest.h" />
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />

@@ -1,7 +1,9 @@
 #include "IndexBuffer.h"
+#include <GLDebug.h>
 
 IndexBuffer::IndexBuffer()
-	: m_count(0),m_RendererID(0) {
+	:m_RendererID(0), m_count(0)
+{
 }
 
 IndexBuffer::~IndexBuffer() {
@@ -10,15 +12,15 @@ IndexBuffer::~IndexBuffer() {
 
 void IndexBuffer::Ctor(const unsigned int* data, unsigned int count) {
 	m_count = count;
-	glGenBuffers(1, &m_RendererID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW);
+	GLCall(glGenBuffers(1, &m_RendererID));
+	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
+	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW));
 }
 
 void IndexBuffer::Bind() const {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID));
 }
 
 void IndexBuffer::UnBind() const {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }

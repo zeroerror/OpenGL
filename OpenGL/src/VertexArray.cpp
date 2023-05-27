@@ -1,8 +1,11 @@
 #include "Renderer.h"
 #include "VertexArray.h"
 #include "GLDebug.h"
+#include <iostream>
 
-VertexArray::VertexArray() {}
+VertexArray::VertexArray()
+	:m_RendererID(0)
+{}
 
 VertexArray::~VertexArray() {
 	GLCall(glDeleteVertexArrays(1, &m_RendererID));
@@ -11,11 +14,12 @@ VertexArray::~VertexArray() {
 void VertexArray::Ctor() {
 	GLCall(glGenVertexArrays(1, &m_RendererID));
 	GLCall(glBindVertexArray(m_RendererID));
+	std::cout << "VertexArray glGenVertexArrays m_RendererID: " << m_RendererID << std::endl;
 }
 
 void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) {
 	// 1. Bind the vertex array object
-	Bind();
+	GLCall(glBindVertexArray(m_RendererID));
 
 	// 2. Bind the vertex buffer object
 	vb.Bind();
@@ -33,6 +37,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 }
 
 void VertexArray::Bind() const {
+	std::cout << "VertexArray Bind m_RendererID: " << m_RendererID << std::endl;
 	GLCall(glBindVertexArray(m_RendererID));
 }
 

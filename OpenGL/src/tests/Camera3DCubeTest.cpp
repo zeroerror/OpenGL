@@ -36,14 +36,10 @@ namespace test {
 		// ====== Cube
 		m_cube1 = CreateCube(1.5f, 2.0f, 1.0f);
 		m_cube1.transform.SetPosition(glm::vec3(0, 0, 5));
-
-		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
-		m_cube2.transform.SetPosition(glm::vec3(-2, 0, 3));
 	}
 
 	Cube Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
 		Cube cube = Cube(width, height, depth);
-
 		// - Shader
 		cube.shader = new Shader();
 		cube.shader->Ctor("res/shader/Cube.shader");
@@ -137,8 +133,7 @@ namespace test {
 		GLCall(glDepthFunc(GL_LESS));
 		GLCall(glDepthMask(GL_TRUE));
 
-		camera.Render(m_cube1);
-		camera.Render(m_cube2);
+		camera.Render(m_cube1.transform.GetPosition(), m_cube1.transform.GetRotation(), m_cube1.shader, &m_cube1.va, m_cube1.GetIndexBuffer());
 	}
 
 }

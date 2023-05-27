@@ -1,5 +1,4 @@
 #include "tests/MVPTest.h"
-#include "tests/Camera2DTest.h"
 #include "tests/Camera3DCubeTest.h"
 #include "GLDebug.h"
 
@@ -59,13 +58,6 @@ int main() {
 			test::MVPTest* mvpTest = new test::MVPTest();
 			mvpTest->Ctor(screen_width, screen_height);
 			return mvpTest;
-		}
-		);
-
-		testMenu->RegisterTest("Camera2D Test", [window, screen_width, screen_height]() {
-			test::Camera2DTest* test = new test::Camera2DTest();
-			test->Ctor(window, screen_width, screen_height);
-			return test;
 		}
 		);
 

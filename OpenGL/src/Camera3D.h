@@ -1,8 +1,9 @@
 #pragma once
 
-#include "TemplateModel.h"
 #include "Transform.h"
-#include <Cube.h>
+#include "Cube.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
 
 class Camera3D {
 public:
@@ -11,11 +12,11 @@ public:
 
 	void Update(const float& dt);
 
-	void Render(TemplateModel& model);
-	void Render(Cube& cube);
+	void Render(glm::vec3 modPosition, glm::quat modRotation,
+		Shader* shader, VertexArray* va, IndexBuffer* ib);
 
-	glm::mat4 GetMVPMatrix_Ortho(const Transform& transform);
-	glm::mat4 GetMVPMatrix_Perspective(const Transform& transform);
+	glm::mat4 GetMVPMatrix_Ortho(const glm::vec3& pos, const glm::quat& rot);
+	glm::mat4 GetMVPMatrix_Perspective(const glm::vec3& pos, const glm::quat& rot);
 
 
 public:
