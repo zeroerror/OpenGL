@@ -8,9 +8,9 @@
 class Cube {
 
 public:
-	Cube() {};
-	Cube(float width, float height, float depth);
+	Cube();
 	~Cube();
+	void Ctor(float width, float height, float depth);
 
 	IndexBuffer* GetIndexBuffer();
 public:

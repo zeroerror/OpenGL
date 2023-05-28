@@ -10,7 +10,6 @@ d:\dev\opengl\opengl\debug\renderer.obj
 d:\dev\opengl\opengl\debug\main.obj
 d:\dev\opengl\opengl\debug\camera3d.obj
 d:\dev\opengl\opengl\debug\cube.obj
-d:\dev\opengl\opengl\debug\indexbuffer.obj
 d:\dev\opengl\opengl\debug\imgui_widgets.obj
 d:\dev\opengl\opengl\debug\imgui_tables.obj
 d:\dev\opengl\opengl\debug\imgui_impl_opengl3.obj
@@ -21,6 +20,7 @@ d:\dev\opengl\opengl\debug\imgui.obj
 d:\dev\opengl\opengl\debug\glm.obj
 d:\dev\opengl\opengl\debug\transform.obj
 d:\dev\opengl\opengl\debug\texture.obj
+d:\dev\opengl\opengl\debug\indexbuffer.obj
 d:\dev\opengl\opengl\debug\gldebug.obj
 d:\dev\opengl\opengl\debug\stb_image.obj
 d:\dev\opengl\opengl\debug\vertexbuffer.h.ifc
@@ -34,8 +34,6 @@ d:\dev\opengl\opengl\debug\opengl.ilk
 d:\dev\opengl\opengl\debug\opengl.pdb
 d:\dev\opengl\opengl\debug\vertexbuffer.h.module.json
 d:\dev\opengl\opengl\debug\mvptest.h.module.json
-d:\dev\opengl\opengl\debug\camera2dtest.obj
-d:\dev\opengl\opengl\debug\templatemodel.obj
 d:\dev\opengl\opengl\debug\opengl.tlog\cl.command.1.tlog
 d:\dev\opengl\opengl\debug\opengl.tlog\cl.read.1.tlog
 d:\dev\opengl\opengl\debug\opengl.tlog\cl.write.1.tlog

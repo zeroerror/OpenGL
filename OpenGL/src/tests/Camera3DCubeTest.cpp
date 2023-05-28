@@ -39,7 +39,8 @@ namespace test {
 	}
 
 	Cube Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
-		Cube cube = Cube(width, height, depth);
+		Cube cube = Cube();
+		cube.Ctor(width, height, depth);
 		// - Shader
 		cube.shader = new Shader();
 		cube.shader->Ctor("res/shader/Cube.shader");

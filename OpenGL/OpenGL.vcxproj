@@ -157,6 +157,7 @@
   <ItemGroup>
     <None Include="res\shader\Basic.shader" />
     <None Include="res\shader\Cube.shader" />
+    <None Include="res\shader\CubeTest.shader" />
     <None Include="src\shader\FragmentShader" />
     <None Include="src\shader\VertexShader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />

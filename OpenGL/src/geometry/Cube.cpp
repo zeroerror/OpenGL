@@ -4,7 +4,9 @@
 #include <Shader.h>
 #include <IndexBuffer.h>
 
-Cube::Cube(float width, float height, float depth) {
+Cube::Cube() {}
+
+void Cube::Ctor(float width, float height, float depth) {
 	this->width = width;
 	this->height = height;
 	this->depth = depth;
@@ -33,7 +35,7 @@ Cube::Cube(float width, float height, float depth) {
 	this->m_vbLayout.Push<float>(2);
 
 	this->va.AddBuffer(m_vb, m_vbLayout);
- 
+
 	if (!this->m_ibInit) {
 		this->m_ib = IndexBuffer();
 		this->m_ib.Ctor(m_indiceArray, 36);

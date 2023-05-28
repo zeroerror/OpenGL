@@ -159,6 +159,7 @@
     <None Include="src\vendor\glm\gtx\vector_query.inl" />
     <None Include="src\vendor\glm\gtx\wrap.inl" />
     <None Include="res\shader\Cube.shader" />
+    <None Include="res\shader\CubeTest.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Shader.cpp" />

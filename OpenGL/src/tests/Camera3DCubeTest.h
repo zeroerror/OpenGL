@@ -33,6 +33,7 @@ namespace test {
 		int m_screen_height;
 		Cube m_cube1;
 		Cube m_cube2;
+		unsigned int rid;
 
 	};
 

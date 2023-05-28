@@ -12,6 +12,7 @@ uniform vec3 u_ModPosition;
 
 void main() {
 	gl_Position = u_MVP * u_ModRotationMatrix * position;
+	gl_Position = u_ModRotationMatrix * position;
 	v_TexCoord = texCoord;
 }
 
@@ -26,5 +27,5 @@ uniform vec4 u_BlendColor;
 uniform sampler2D u_Texture;
 
 void main() {
-	color = texture(u_Texture, v_TexCoord);
+	color = vec4(v_TexCoord, 1.0f, 1.0f);
 }
