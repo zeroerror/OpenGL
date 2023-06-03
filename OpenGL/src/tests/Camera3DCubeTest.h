@@ -24,15 +24,15 @@ namespace test {
 		GLFWwindow* window;
 		const float moveSpeed = 0.1f;
 	private:
-		Cube CreateCube(const float& width, const float& height, const float& depth);
+		Cube* CreateCube(const float& width, const float& height, const float& depth);
 
 	private:
 		glm::vec3 m_TranslationA;
 		glm::vec3 m_TranslationB;
 		int m_screen_width;
 		int m_screen_height;
-		Cube m_cube1;
-		Cube m_cube2;
+		Cube* m_cube1;
+		Cube* m_cube2;
 		unsigned int rid;
 
 	};

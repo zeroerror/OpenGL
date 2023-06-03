@@ -37,8 +37,7 @@ void Renderer::Draw(const VertexArray* va, const IndexBuffer* ib, const Shader* 
 	//vao.AddBuffer(m_vb, m_vbLayout);
 
 	// And This Dont Fucking Work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//va->Bind();
-
+	va->Bind();
 	ib->Bind();
 	shader->Bind();
 	GLCall(glDrawElements(GL_TRIANGLES, ib->GetCount(), GL_UNSIGNED_INT, nullptr));

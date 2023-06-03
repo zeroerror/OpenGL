@@ -34,21 +34,23 @@ namespace test {
 		m_screen_height = screen_height;
 
 		// ====== Cube
-		m_cube1 = CreateCube(1.5f, 2.0f, 1.0f);
-		m_cube1.transform.SetPosition(glm::vec3(0, 0, 5));
+		m_cube1 = CreateCube(2.0f, 2.0f, 2.0f);
+		m_cube1->transform.SetPosition(glm::vec3(0.0f, 0.0f, 5.0f));
+		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
+		m_cube2->transform.SetPosition(glm::vec3(-2.0f, 0.0f, 3.0f));
 	}
 
-	Cube Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
-		Cube cube = Cube();
-		cube.Ctor(width, height, depth);
+	Cube* Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
+		Cube* cube = new Cube();
+		cube->Ctor(width, height, depth);
 		// - Shader
-		cube.shader = new Shader();
-		cube.shader->Ctor("res/shader/Cube.shader");
-		cube.shader->Bind();
+		cube->shader = new Shader();
+		cube->shader->Ctor("res/shader/Cube.shader");
+		cube->shader->Bind();
 		// - Texture 
-		cube.texture = new Texture();
-		cube.texture->Ctor("res/textures/jerry.png");
-		cube.texture->Bind();
+		cube->texture = new Texture();
+		cube->texture->Ctor("res/textures/jerry.png");
+		cube->texture->Bind();
 		return cube;
 	}
 
@@ -74,52 +76,52 @@ namespace test {
 		// 模型旋转
 		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
-			glm::quat newRot = rot * m_cube1.transform.GetRotation();
-			m_cube1.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1->transform.GetRotation();
+			m_cube1->transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * m_cube1.transform.GetRotation();
-			m_cube1.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1->transform.GetRotation();
+			m_cube1->transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(1, 0, 0));
-			glm::quat newRot = rot * m_cube1.transform.GetRotation();
-			m_cube1.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1->transform.GetRotation();
+			m_cube1->transform.SetRotation(newRot);
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN)) {
 			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(-1, 0, 0));
-			glm::quat newRot = rot * m_cube1.transform.GetRotation();
-			m_cube1.transform.SetRotation(newRot);
+			glm::quat newRot = rot * m_cube1->transform.GetRotation();
+			m_cube1->transform.SetRotation(newRot);
 		}
 		// 模型移动
 		if (glfwGetKey(window, GLFW_KEY_A)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 right = cubeTrans.GetRight();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + -right * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 right = cubeTrans.GetRight();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + right * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_W)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 up = cubeTrans.GetUp();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + up * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 up = cubeTrans.GetUp();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + -up * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_T)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 forward = cubeTrans.GetForward();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + forward * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_G)) {
-			Transform& cubeTrans = m_cube1.transform;
+			Transform& cubeTrans = m_cube1->transform;
 			glm::vec3 forward = cubeTrans.GetForward();
 			cubeTrans.SetPosition(cubeTrans.GetPosition() + -forward * moveSpeed);
 		}
@@ -134,7 +136,8 @@ namespace test {
 		GLCall(glDepthFunc(GL_LESS));
 		GLCall(glDepthMask(GL_TRUE));
 
-		camera.Render(m_cube1.transform.GetPosition(), m_cube1.transform.GetRotation(), m_cube1.shader, &m_cube1.va, m_cube1.GetIndexBuffer());
+		camera.Render(m_cube1->transform.GetPosition(), m_cube1->transform.GetRotation(), m_cube1->shader, &m_cube1->va, m_cube1->GetIndexBuffer());
+		camera.Render(m_cube2->transform.GetPosition(), m_cube2->transform.GetRotation(), m_cube2->shader, &m_cube2->va, m_cube2->GetIndexBuffer());
 	}
 
 }

@@ -63,9 +63,11 @@ int main() {
 			}
 		);
 
+		static bool flag;
 		testMenu->RegisterTest("Camera3D Cube Test", [window, screen_width, screen_height]() {
 			test::Camera3DCubeTest* test = new test::Camera3DCubeTest();
 			test->Ctor(window, screen_width, screen_height);
+			flag = true;
 			return test;
 			}
 		);
