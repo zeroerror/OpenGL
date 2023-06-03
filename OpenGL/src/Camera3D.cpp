@@ -16,7 +16,7 @@ void Camera3D::Update(const float& dt) {
 }
 
 void Camera3D::Render(glm::vec3 modPosition, glm::quat modRotation,
-						Shader* shader, VertexArray* va, IndexBuffer* ib) {
+	Shader* shader, VertexArray* va, IndexBuffer* ib) {
 	// - Material
 	shader->SetUniform1i("u_Texture", 0);
 	//shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
@@ -49,14 +49,13 @@ glm::mat4 Camera3D::GetMVPMatrix_Ortho(const glm::vec3& pos, const glm::quat& ro
 
 glm::mat4 Camera3D::GetMVPMatrix_Perspective(const glm::vec3& pos, const glm::quat& rot) {
 	glm::mat4 model = glm::translate(glm::mat4(1), pos);
-
 	glm::vec3 cameraPos = transform.GetPosition();
 	glm::vec3 cameraForward = transform.GetForward();
 	glm::vec3 cameraUp = transform.GetUp();
 	glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraForward, cameraUp);
 
-	float constexpr fov = glm::radians(45.0f); // ´¹Ö±ÊÓ³¡½Ç
-	float aspectRatio = width / height; // ¿í¸ß±È
+	float constexpr fov = glm::radians(45.0f); // ï¿½ï¿½Ö±ï¿½Ó³ï¿½ï¿½ï¿½
+	float aspectRatio = width / height; // ï¿½ï¿½ï¿½ß±ï¿½
 	float nearPlane = 0.1f;
 	float farPlane = 1000.0f;
 	glm::mat4 proj = glm::perspectiveRH(fov, aspectRatio, nearPlane, farPlane);

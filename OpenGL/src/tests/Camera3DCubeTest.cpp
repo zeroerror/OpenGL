@@ -18,6 +18,13 @@ namespace test {
 		camera.depth = 1000;
 		this->window = window;
 
+		double xPos, yPos;
+		glfwGetCursorPos(window, &xPos, &yPos);
+		m_cursorPosX = xPos;
+		m_cursorPosY = yPos;
+
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 		// 硬件输入事件注册: 设置窗口的用户指针
 		glfwSetWindowUserPointer(window, this);
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
@@ -27,7 +34,6 @@ namespace test {
 			glm::vec3 forward = camTrans.GetForward();
 			pos += forward * static_cast<float>(yoffset * camera3DCubeTest->moveSpeed);
 			camTrans.SetPosition(pos);
-			std::cout << "camTrans pos " << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
 			});
 
 		m_screen_width = screen_width;
@@ -38,6 +44,7 @@ namespace test {
 		m_cube1->transform.SetPosition(glm::vec3(0.0f, 0.0f, 5.0f));
 		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
 		m_cube2->transform.SetPosition(glm::vec3(-2.0f, 0.0f, 3.0f));
+
 	}
 
 	Cube* Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
@@ -55,76 +62,32 @@ namespace test {
 	}
 
 	void Camera3DCubeTest::OnUpdate(const float& deltaTime) {
-		// 相机移动
+		//- 相机移动
 		Transform& camTrans = camera.transform;
-		if (glfwGetKey(window, GLFW_KEY_J)) {
+		if (glfwGetKey(window, GLFW_KEY_A)) {
 			glm::vec3 right = camTrans.GetRight();
 			camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_L)) {
+		if (glfwGetKey(window, GLFW_KEY_D)) {
 			glm::vec3 right = camTrans.GetRight();
 			camTrans.SetPosition(camTrans.GetPosition() + right * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_I)) {
-			glm::vec3 up = camTrans.GetUp();
-			camTrans.SetPosition(camTrans.GetPosition() + up * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_K)) {
-			glm::vec3 up = camTrans.GetUp();
-			camTrans.SetPosition(camTrans.GetPosition() + -up * moveSpeed);
-		}
-		// 模型旋转
-		if (glfwGetKey(window, GLFW_KEY_LEFT)) {
-			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, -1, 0));
-			glm::quat newRot = rot * m_cube1->transform.GetRotation();
-			m_cube1->transform.SetRotation(newRot);
-		}
-		if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
-			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(0, 1, 0));
-			glm::quat newRot = rot * m_cube1->transform.GetRotation();
-			m_cube1->transform.SetRotation(newRot);
-		}
-		if (glfwGetKey(window, GLFW_KEY_UP)) {
-			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(1, 0, 0));
-			glm::quat newRot = rot * m_cube1->transform.GetRotation();
-			m_cube1->transform.SetRotation(newRot);
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN)) {
-			glm::quat rot = glm::angleAxis(glm::radians(1.0f), glm::vec3(-1, 0, 0));
-			glm::quat newRot = rot * m_cube1->transform.GetRotation();
-			m_cube1->transform.SetRotation(newRot);
-		}
-		// 模型移动
-		if (glfwGetKey(window, GLFW_KEY_A)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 right = cubeTrans.GetRight();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + -right * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_D)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 right = cubeTrans.GetRight();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + right * moveSpeed);
-		}
 		if (glfwGetKey(window, GLFW_KEY_W)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 up = cubeTrans.GetUp();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + up * moveSpeed);
+			glm::vec3	forward = camTrans.GetForward();
+			camTrans.SetPosition(camTrans.GetPosition() + forward * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 up = cubeTrans.GetUp();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + -up * moveSpeed);
+			glm::vec3 forward = camTrans.GetForward();
+			camTrans.SetPosition(camTrans.GetPosition() + -forward * moveSpeed);
 		}
-		if (glfwGetKey(window, GLFW_KEY_T)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 forward = cubeTrans.GetForward();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + forward * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_G)) {
-			Transform& cubeTrans = m_cube1->transform;
-			glm::vec3 forward = cubeTrans.GetForward();
-			cubeTrans.SetPosition(cubeTrans.GetPosition() + -forward * moveSpeed);
-		}
+		double xPos, yPos;
+		glfwGetCursorPos(window, &xPos, &yPos);
+		double cursorOffsetX = m_cursorPosX - xPos;
+		double cursorOffsetY = m_cursorPosY - yPos;
+		float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
+		float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
+		glm::quat rot = glm::vec3(xRadius, yRadius, 0.0f) * camTrans.GetRotation();
+		camTrans.SetRotation(rot);
 
 		camera.Update(deltaTime);
 	}

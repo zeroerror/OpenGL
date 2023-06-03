@@ -23,6 +23,7 @@ namespace test {
 		Camera3D camera;
 		GLFWwindow* window;
 		const float moveSpeed = 0.1f;
+		const float rotateSpeed = 0.1f;
 	private:
 		Cube* CreateCube(const float& width, const float& height, const float& depth);
 
@@ -34,6 +35,8 @@ namespace test {
 		Cube* m_cube1;
 		Cube* m_cube2;
 		unsigned int rid;
+		float m_cursorPosX;
+		float m_cursorPosY;
 
 	};
 
