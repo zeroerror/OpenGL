@@ -23,8 +23,6 @@ namespace test {
 		m_cursorPosX = xPos;
 		m_cursorPosY = yPos;
 
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 		// 硬件输入事件注册: 设置窗口的用户指针
 		glfwSetWindowUserPointer(window, this);
 		glfwSetScrollCallback(window, [](GLFWwindow* window, double xoffset, double yoffset) {
@@ -73,27 +71,37 @@ namespace test {
 			camTrans.SetPosition(camTrans.GetPosition() + right * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_W)) {
-			glm::vec3	forward = camTrans.GetForward();
+			glm::vec3 forward = camTrans.GetForward();
 			camTrans.SetPosition(camTrans.GetPosition() + forward * moveSpeed);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S)) {
 			glm::vec3 forward = camTrans.GetForward();
 			camTrans.SetPosition(camTrans.GetPosition() + -forward * moveSpeed);
 		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT)) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+
 		double xPos, yPos;
 		glfwGetCursorPos(window, &xPos, &yPos);
 		double cursorOffsetX = m_cursorPosX - xPos;
 		double cursorOffsetY = m_cursorPosY - yPos;
+		m_cursorPosY = yPos;
+		m_cursorPosX = xPos;
 		float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
 		float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
-		glm::quat rot = glm::vec3(xRadius, yRadius, 0.0f) * camTrans.GetRotation();
-		camTrans.SetRotation(rot);
+		glm::quat camRot = glm::quat(glm::vec3(0.0f, yRadius, 0.0f)) * camTrans.GetRotation();
+		camRot =  camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
+		camTrans.SetRotation(camRot);
 
 		camera.Update(deltaTime);
 	}
 
 	void Camera3DCubeTest::OnRender() {
-		GLCall(glClearColor(0.8f, 0.8f, 0.8f, 1.0f));
+		GLCall(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 		GLCall(glEnable(GL_DEPTH_TEST));
 		GLCall(glDepthFunc(GL_LESS));
