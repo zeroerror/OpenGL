@@ -160,6 +160,7 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
     <None Include="res\shader\Cube.shader" />
     <None Include="res\shader\CubeTest.shader" />
+    <None Include="src\Camera\Camera3DController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Shader.cpp" />
@@ -183,10 +184,11 @@
     <ClCompile Include="src\vendor\glm\detail\glm.cpp" />
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\Transform.cpp" />
-    <ClCompile Include="src\Camera3D.cpp" />
+    <ClCompile Include="src\Camera\Camera3D.cpp" />
     <ClCompile Include="src\GLDebug.cpp" />
     <ClCompile Include="src\geometry\Cube.cpp" />
     <ClCompile Include="src\tests\Camera3DCubeTest.cpp" />
+    <ClCompile Include="src\Camera\Camera3DController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Shader.h" />
@@ -490,7 +492,7 @@
     <ClInclude Include="src\vendor\glm\vec4.hpp" />
     <ClInclude Include="src\vendor\glm\vector_relational.hpp" />
     <ClInclude Include="src\Transform.h" />
-    <ClInclude Include="src\Camera3D.h" />
+    <ClInclude Include="src\Camera\Camera3D.h" />
     <ClInclude Include="src\geometry\Cube.h" />
     <ClInclude Include="src\tests\Camera3DCubeTest.h" />
   </ItemGroup>

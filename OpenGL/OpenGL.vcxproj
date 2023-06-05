@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)src\geometry;$(SolutionDir)src\vendor;$(SolutionDir)src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)src\Camera;$(SolutionDir)src\geometry;$(SolutionDir)src\vendor;$(SolutionDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)src\geometry;$(SolutionDir)src\vendor;$(SolutionDir)src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)src\Camera;$(SolutionDir)src\geometry;$(SolutionDir)src\vendor;$(SolutionDir)src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -158,6 +158,7 @@
     <None Include="res\shader\Basic.shader" />
     <None Include="res\shader\Cube.shader" />
     <None Include="res\shader\CubeTest.shader" />
+    <None Include="src\Camera\Camera3DController.h" />
     <None Include="src\shader\FragmentShader" />
     <None Include="src\shader\VertexShader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
@@ -298,8 +299,9 @@
     <None Include="src\vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera\Camera3DController.cpp" />
     <ClCompile Include="src\geometry\Cube.cpp" />
-    <ClCompile Include="src\Camera3D.cpp" />
+    <ClCompile Include="src\Camera\Camera3D.cpp" />
     <ClCompile Include="src\GLDebug.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -326,7 +328,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\geometry\Cube.h" />
-    <ClInclude Include="src\Camera3D.h" />
+    <ClInclude Include="src\Camera\Camera3D.h" />
     <ClInclude Include="src\GLDebug.h" />
     <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Renderer.h" />

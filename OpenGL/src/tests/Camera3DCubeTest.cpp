@@ -3,6 +3,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <GLFW/glfw3.h>
 #include <GLDebug.h>
+#include <Camera3DController.h>
 
 namespace test {
 
@@ -16,6 +17,9 @@ namespace test {
 		camera.width = screen_width;
 		camera.height = screen_height;
 		camera.depth = 1000;
+		camera.transform.SetPosition(glm::vec3(0, 0, -10));
+		camera.transform.SetRotation(glm::mat4(1.0f));
+
 		this->window = window;
 
 		double xPos, yPos;
@@ -37,12 +41,15 @@ namespace test {
 		m_screen_width = screen_width;
 		m_screen_height = screen_height;
 
-		// ====== Cube
-		m_cube1 = CreateCube(2.0f, 2.0f, 2.0f);
-		m_cube1->transform.SetPosition(glm::vec3(0.0f, 0.0f, 5.0f));
-		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
-		m_cube2->transform.SetPosition(glm::vec3(-2.0f, 0.0f, 3.0f));
+		// ====== Camera Controller
+		m_cameraController = Camera3DController();
+		m_cameraController.Inject(&camera, window);
 
+		// ====== Cube
+		m_cube1 = CreateCube(3.0f, 3.0, 3.0f);
+		m_cube1->transform.SetPosition(glm::vec3(0.0f, -15.0f, -15.0f));
+		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
+		m_cube2->transform.SetPosition(glm::vec3(-5.0f, -10.0f, -10.0f));
 	}
 
 	Cube* Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
@@ -60,43 +67,7 @@ namespace test {
 	}
 
 	void Camera3DCubeTest::OnUpdate(const float& deltaTime) {
-		//- 相机移动
-		Transform& camTrans = camera.transform;
-		if (glfwGetKey(window, GLFW_KEY_A)) {
-			glm::vec3 right = camTrans.GetRight();
-			camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_D)) {
-			glm::vec3 right = camTrans.GetRight();
-			camTrans.SetPosition(camTrans.GetPosition() + right * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_W)) {
-			glm::vec3 forward = camTrans.GetForward();
-			camTrans.SetPosition(camTrans.GetPosition() + forward * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_S)) {
-			glm::vec3 forward = camTrans.GetForward();
-			camTrans.SetPosition(camTrans.GetPosition() + -forward * moveSpeed);
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_ALT)) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
-
-		double xPos, yPos;
-		glfwGetCursorPos(window, &xPos, &yPos);
-		double cursorOffsetX = m_cursorPosX - xPos;
-		double cursorOffsetY = m_cursorPosY - yPos;
-		m_cursorPosY = yPos;
-		m_cursorPosX = xPos;
-		float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
-		float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
-		glm::quat camRot = glm::quat(glm::vec3(0.0f, yRadius, 0.0f)) * camTrans.GetRotation();
-		camRot =  camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
-		camTrans.SetRotation(camRot);
-
+		m_cameraController.Update(deltaTime);
 		camera.Update(deltaTime);
 	}
 

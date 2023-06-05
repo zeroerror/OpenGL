@@ -13,6 +13,8 @@ public:
 	void Ctor(float width, float height, float depth);
 
 	IndexBuffer* GetIndexBuffer();
+	Cube* CreateCube(const float& width, const float& height, const float& depth) const;
+
 public:
 	Transform transform;
 	Texture* texture;

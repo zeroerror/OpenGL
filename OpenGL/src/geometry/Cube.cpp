@@ -50,6 +50,12 @@ IndexBuffer* Cube::GetIndexBuffer() {
 	return &m_ib;
 }
 
+Cube* Cube::CreateCube(const float& width, const float& height, const float& depth) const {
+	Cube* cube = new Cube();
+	cube->Ctor(width, height, depth);
+	return cube;
+}
+
 IndexBuffer Cube::m_ib;
 bool Cube::m_ibInit;
 

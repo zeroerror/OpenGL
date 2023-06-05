@@ -6,6 +6,7 @@
 
 #include "Test.h"
 #include "Camera3D.h"
+#include "Camera3DController.h"
 #include <Cube.h>
 
 namespace test {
@@ -28,16 +29,13 @@ namespace test {
 		Cube* CreateCube(const float& width, const float& height, const float& depth);
 
 	private:
-		glm::vec3 m_TranslationA;
-		glm::vec3 m_TranslationB;
 		int m_screen_width;
 		int m_screen_height;
 		Cube* m_cube1;
 		Cube* m_cube2;
-		unsigned int rid;
 		float m_cursorPosX;
 		float m_cursorPosY;
-
+		Camera3DController m_cameraController;
 	};
 
 }
