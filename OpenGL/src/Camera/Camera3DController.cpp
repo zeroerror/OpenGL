@@ -12,8 +12,21 @@ void Camera3DController::Inject(Camera3D* camera, GLFWwindow* window){
 }
 
 void Camera3DController::Update(const float& dt) {
-	//- 相机移动
+	double xPos, yPos;
+	glfwGetCursorPos(window, &xPos, &yPos);
+
 	Transform& camTrans = camera->transform;
+	double cursorOffsetX = m_cursorPosX - xPos;
+	double cursorOffsetY = m_cursorPosY - yPos;
+	m_cursorPosY = yPos;
+	m_cursorPosX = xPos;
+	float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
+	float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
+	glm::quat camRot = glm::quat(glm::vec3(0.0f, yRadius, 0.0f)) * camTrans.GetRotation();
+	camRot = camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
+	camTrans.SetRotation(camRot);
+
+	//- 相机移动
 	if (glfwGetKey(window, GLFW_KEY_A)) {
 		glm::vec3 right = camTrans.GetRight();
 		camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
@@ -37,20 +50,7 @@ void Camera3DController::Update(const float& dt) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	double xPos, yPos;
-	glfwGetCursorPos(window, &xPos, &yPos);
-	double cursorOffsetX = m_cursorPosX - xPos;
-	double cursorOffsetY = m_cursorPosY - yPos;
-	m_cursorPosY = yPos;
-	m_cursorPosX = xPos;
-	float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
-	float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
-	glm::quat camRot = glm::quat(glm::vec3(0.0f, yRadius, 0.0f)) * camTrans.GetRotation();
-	camRot = camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
-	camTrans.SetRotation(camRot);
-
 	camera->Update(dt);
-
 	std::cout << "Camera3D Rotation " << glm::to_string(camera->transform.GetRotation()) << std::endl;
 	std::cout << "Camera3D Position " << glm::to_string(camera->transform.GetPosition()) << std::endl;
 }

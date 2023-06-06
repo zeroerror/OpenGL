@@ -31,8 +31,7 @@ namespace test {
 	private:
 		int m_screen_width;
 		int m_screen_height;
-		Cube* m_cube1;
-		Cube* m_cube2;
+		Cube* m_cubes[10];
 		float m_cursorPosX;
 		float m_cursorPosY;
 		Camera3DController m_cameraController;

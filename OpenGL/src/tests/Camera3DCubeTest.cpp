@@ -17,7 +17,7 @@ namespace test {
 		camera.width = screen_width;
 		camera.height = screen_height;
 		camera.depth = 1000;
-		camera.transform.SetPosition(glm::vec3(0, 0, -10));
+		camera.transform.SetPosition(glm::vec3(0, 0, 10));
 		camera.transform.SetRotation(glm::mat4(1.0f));
 
 		this->window = window;
@@ -46,10 +46,13 @@ namespace test {
 		m_cameraController.Inject(&camera, window);
 
 		// ====== Cube
-		m_cube1 = CreateCube(3.0f, 3.0, 3.0f);
-		m_cube1->transform.SetPosition(glm::vec3(0.0f, -15.0f, -15.0f));
-		m_cube2 = CreateCube(1.0f, 1.0f, 1.0f);
-		m_cube2->transform.SetPosition(glm::vec3(-5.0f, -10.0f, -10.0f));
+		m_cubes[0] = CreateCube(20.0f, 0.5f, 20.0f);
+		m_cubes[0]->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		for (int i = 1;i < 10;i++) {
+			Cube* cube = CreateCube(1.0f + i, 1.0f, 1.0f + i);
+			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
+			m_cubes[i] = cube;
+		}
 	}
 
 	Cube* Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
@@ -78,8 +81,11 @@ namespace test {
 		GLCall(glDepthFunc(GL_LESS));
 		GLCall(glDepthMask(GL_TRUE));
 
-		camera.Render(m_cube1->transform.GetPosition(), m_cube1->transform.GetRotation(), m_cube1->shader, &m_cube1->va, m_cube1->GetIndexBuffer());
-		camera.Render(m_cube2->transform.GetPosition(), m_cube2->transform.GetRotation(), m_cube2->shader, &m_cube2->va, m_cube2->GetIndexBuffer());
+		for (size_t i = 0; i < 10; i++)
+		{
+			Cube* cube = m_cubes[i];
+			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->shader, &cube->va, cube->GetIndexBuffer());
+		}
 	}
 
 }
