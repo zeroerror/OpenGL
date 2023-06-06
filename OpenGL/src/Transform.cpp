@@ -44,5 +44,5 @@ void Transform::SetRotation(const glm::quat& newRotation) {
 	// 更新前向量和上向量
 	m_forward = glm::normalize(newRotation * glm::vec3(0.0f, 0.0f, 1.0f));
 	m_up = glm::normalize(newRotation * glm::vec3(0.0f, 1.0f, 0.0f));
-	m_right = glm::normalize(newRotation * glm::vec3(-1.0f, 0.0f, 0.0f));
+	m_right = glm::normalize(newRotation * glm::vec3(1.0f, 0.0f, 0.0f));
 }

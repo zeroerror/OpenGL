@@ -17,8 +17,8 @@ namespace test {
 		camera.width = screen_width;
 		camera.height = screen_height;
 		camera.depth = 1000;
-		camera.transform.SetPosition(glm::vec3(0, 0, 10));
-		camera.transform.SetRotation(glm::mat4(1.0f));
+		camera.transform.SetPosition(glm::vec3(0, 10, 20));
+		camera.transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 
 		this->window = window;
 
@@ -51,6 +51,7 @@ namespace test {
 		for (int i = 1;i < 10;i++) {
 			Cube* cube = CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
+			cube->transform.SetRotation(glm::angleAxis(glm::radians(18.0f * i), glm::vec3(0.0f, 1.0f, 0.0f)));
 			m_cubes[i] = cube;
 		}
 	}

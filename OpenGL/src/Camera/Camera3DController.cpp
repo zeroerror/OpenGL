@@ -6,7 +6,7 @@
 Camera3DController::Camera3DController() {}
 Camera3DController::~Camera3DController() {}
 
-void Camera3DController::Inject(Camera3D* camera, GLFWwindow* window){
+void Camera3DController::Inject(Camera3D* camera, GLFWwindow* window) {
 	this->camera = camera;
 	this->window = window;
 }
@@ -15,18 +15,20 @@ void Camera3DController::Update(const float& dt) {
 	double xPos, yPos;
 	glfwGetCursorPos(window, &xPos, &yPos);
 
+	//- Camera Look
 	Transform& camTrans = camera->transform;
-	double cursorOffsetX = m_cursorPosX - xPos;
-	double cursorOffsetY = m_cursorPosY - yPos;
+	double cursorOffsetX = xPos - m_cursorPosX;
+	double cursorOffsetY = yPos - m_cursorPosY;
 	m_cursorPosY = yPos;
 	m_cursorPosX = xPos;
 	float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
-	float yRadius = glm::radians(cursorOffsetX * rotateSpeed);
-	glm::quat camRot = glm::quat(glm::vec3(0.0f, yRadius, 0.0f)) * camTrans.GetRotation();
+	float yRadius = -glm::radians(cursorOffsetX * rotateSpeed);
+	glm::quat camRot = camTrans.GetRotation();
+	camRot = glm::quat(glm::vec3(0, yRadius, 0.0f)) * camRot;
 	camRot = camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
 	camTrans.SetRotation(camRot);
 
-	//- 相机移动
+	//- Camera Move
 	if (glfwGetKey(window, GLFW_KEY_A)) {
 		glm::vec3 right = camTrans.GetRight();
 		camTrans.SetPosition(camTrans.GetPosition() + -right * moveSpeed);
@@ -37,11 +39,11 @@ void Camera3DController::Update(const float& dt) {
 	}
 	if (glfwGetKey(window, GLFW_KEY_W)) {
 		glm::vec3 forward = camTrans.GetForward();
-		camTrans.SetPosition(camTrans.GetPosition() + forward * moveSpeed);
+		camTrans.SetPosition(camTrans.GetPosition() + -forward * moveSpeed);
 	}
 	if (glfwGetKey(window, GLFW_KEY_S)) {
 		glm::vec3 forward = camTrans.GetForward();
-		camTrans.SetPosition(camTrans.GetPosition() + -forward * moveSpeed);
+		camTrans.SetPosition(camTrans.GetPosition() + forward * moveSpeed);
 	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT)) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -51,7 +53,9 @@ void Camera3DController::Update(const float& dt) {
 	}
 
 	camera->Update(dt);
-	std::cout << "Camera3D Rotation " << glm::to_string(camera->transform.GetRotation()) << std::endl;
+
+	glm::vec3 euler = glm::eulerAngles(camRot);
+	std::cout << "Camera3D Rotation " << euler.x * 57.2958f << " " << euler.y * 57.2958f << " " << euler.z * 57.2958f << std::endl;
 	std::cout << "Camera3D Position " << glm::to_string(camera->transform.GetPosition()) << std::endl;
 }
 
