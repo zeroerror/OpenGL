@@ -3,30 +3,18 @@
 #include <glm/gtx/string_cast.hpp>
 #include "Camera3DController.h"
 
-Camera3DController::Camera3DController() {}
+Camera3DController::Camera3DController() {
+}
 Camera3DController::~Camera3DController() {}
 
 void Camera3DController::Inject(Camera3D* camera, GLFWwindow* window) {
 	this->camera = camera;
 	this->window = window;
+	glfwGetCursorPos(window, &m_cursorPosX, &m_cursorPosY);
 }
 
 void Camera3DController::Update(const float& dt) {
-	double xPos, yPos;
-	glfwGetCursorPos(window, &xPos, &yPos);
-
-	//- Camera Look
 	Transform& camTrans = camera->transform;
-	double cursorOffsetX = xPos - m_cursorPosX;
-	double cursorOffsetY = yPos - m_cursorPosY;
-	m_cursorPosY = yPos;
-	m_cursorPosX = xPos;
-	float xRadius = -glm::radians(cursorOffsetY * rotateSpeed);
-	float yRadius = -glm::radians(cursorOffsetX * rotateSpeed);
-	glm::quat camRot = camTrans.GetRotation();
-	camRot = glm::quat(glm::vec3(0, yRadius, 0.0f)) * camRot;
-	camRot = camRot * glm::quat(glm::vec3(xRadius, 0.0f, 0.0f));
-	camTrans.SetRotation(camRot);
 
 	//- Camera Move
 	if (glfwGetKey(window, GLFW_KEY_A)) {
@@ -51,6 +39,22 @@ void Camera3DController::Update(const float& dt) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
+
+	//- Camera Look bug: quaternion mulity is right to left>???????
+	double xPos, yPos;
+	glfwGetCursorPos(window, &xPos, &yPos);
+	double cursorOffsetX = xPos - m_cursorPosX;
+	double cursorOffsetY = yPos - m_cursorPosY;
+	m_cursorPosY = yPos;
+	m_cursorPosX = xPos;
+	float yawRadius = -glm::radians(cursorOffsetX * rotateSpeed);
+	float pitchRadius = -glm::radians(cursorOffsetY * rotateSpeed);
+	glm::qua camRot = camTrans.GetRotation();
+	glm::qua yawRot = glm::qua(glm::vec3(0, yawRadius, 0));
+	camRot = yawRot * camRot;
+	glm::qua pitchRot = glm::qua(glm::vec3(pitchRadius, 0, 0));
+	camRot = camRot * pitchRot;
+	camTrans.SetRotation(camRot);
 
 	camera->Update(dt);
 

@@ -17,15 +17,10 @@ namespace test {
 		camera.width = screen_width;
 		camera.height = screen_height;
 		camera.depth = 1000;
-		camera.transform.SetPosition(glm::vec3(0, 10, 20));
+		camera.transform.SetPosition(glm::vec3(0, 0, 20));
 		camera.transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 
 		this->window = window;
-
-		double xPos, yPos;
-		glfwGetCursorPos(window, &xPos, &yPos);
-		m_cursorPosX = xPos;
-		m_cursorPosY = yPos;
 
 		// 硬件输入事件注册: 设置窗口的用户指针
 		glfwSetWindowUserPointer(window, this);
@@ -48,6 +43,7 @@ namespace test {
 		// ====== Cube
 		m_cubes[0] = CreateCube(20.0f, 0.5f, 20.0f);
 		m_cubes[0]->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		m_cubes[0]->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 		for (int i = 1;i < 10;i++) {
 			Cube* cube = CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));

@@ -20,7 +20,7 @@ public:
 	float rotateSpeed = 0.1f;
 
 private:
-	float m_cursorPosX;
-	float m_cursorPosY;
+	double m_cursorPosX;
+	double m_cursorPosY;
 
 };
