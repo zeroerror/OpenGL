@@ -18,10 +18,9 @@ private:
 	std::unordered_map<std::string, int> m_UniformLocationCache;
 
 public:
-	Shader();
+	Shader(const std::string& filePath);
 	~Shader();
 
-	void Ctor(const std::string& filePath);
 	void Bind() const;
 	void UnBind()const;
 

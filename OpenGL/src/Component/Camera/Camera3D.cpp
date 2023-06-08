@@ -15,17 +15,14 @@ void Camera3D::Update(const float& dt) {
 	u_Time += dt;
 }
 
-void Camera3D::Render(glm::vec3 modPosition, glm::quat modRotation,
-	Shader* shader, VertexArray* va, IndexBuffer* ib) {
-	// - Material
+void Camera3D::Render(glm::vec3 modPosition, glm::quat modRotation, Material* material, VertexArray* va, IndexBuffer* ib) {
+	Shader* shader = material->shader;
 	shader->SetUniform1i("u_Texture", 0);
-	//shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Ortho(modTrans));
 	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Perspective(modPosition, modRotation));
 	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modRotation));
 	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
-
 	Renderer renderer;
-	renderer.Draw(va, ib, shader);
+	renderer.Draw(va, ib, material);
 }
 
 glm::mat4 Camera3D::GetMVPMatrix_Ortho(const glm::vec3& pos, const glm::quat& rot) {

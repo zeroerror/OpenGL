@@ -41,29 +41,15 @@ namespace test {
 		m_cameraController.Inject(&camera, window);
 
 		// ====== Cube
-		m_cubes[0] = CreateCube(20.0f, 0.5f, 20.0f);
+		m_cubes[0] = Cube::CreateCube(20.0f, 0.5f, 20.0f);
 		m_cubes[0]->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		m_cubes[0]->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 		for (int i = 1;i < 10;i++) {
-			Cube* cube = CreateCube(1.0f + i, 1.0f, 1.0f + i);
+			Cube* cube = Cube::CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
 			cube->transform.SetRotation(glm::angleAxis(glm::radians(18.0f * i), glm::vec3(0.0f, 1.0f, 0.0f)));
 			m_cubes[i] = cube;
 		}
-	}
-
-	Cube* Camera3DCubeTest::CreateCube(const float& width, const float& height, const float& depth) {
-		Cube* cube = new Cube();
-		cube->Ctor(width, height, depth);
-		// - Shader
-		cube->shader = new Shader();
-		cube->shader->Ctor("res/shader/Cube.shader");
-		cube->shader->Bind();
-		// - Texture 
-		cube->texture = new Texture();
-		cube->texture->Ctor("res/textures/jerry.png");
-		cube->texture->Bind();
-		return cube;
 	}
 
 	void Camera3DCubeTest::OnUpdate(const float& deltaTime) {
@@ -81,7 +67,7 @@ namespace test {
 		for (size_t i = 0; i < 10; i++)
 		{
 			Cube* cube = m_cubes[i];
-			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->shader, &cube->va, cube->GetIndexBuffer());
+			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->material, &cube->va, cube->GetIndexBuffer());
 		}
 	}
 

@@ -1,9 +1,10 @@
 #pragma once
 #include "Transform.h"
-#include <Texture.h>
-#include <Shader.h>
-#include <VertexArray.h>
-#include <IndexBuffer.h>
+#include "Texture.h"
+#include "Shader.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Material.h"
 
 class Cube {
 
@@ -13,12 +14,12 @@ public:
 	void Ctor(float width, float height, float depth);
 
 	IndexBuffer* GetIndexBuffer();
-	Cube* CreateCube(const float& width, const float& height, const float& depth) const;
+	static Cube* CreateCube(const float& width, const float& height, const float& depth);
 
 public:
 	Transform transform;
 	Texture* texture;
-	Shader* shader;
+	Material* material;
 	VertexArray va;
 	float width;
 	float height;

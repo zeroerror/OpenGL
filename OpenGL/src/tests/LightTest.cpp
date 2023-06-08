@@ -41,29 +41,15 @@ namespace test {
 		m_cameraController.Inject(&camera, window);
 
 		// ====== Cube
-		m_cubes[0] = CreateCube(20.0f, 0.5f, 20.0f);
+		m_cubes[0] = Cube::CreateCube(20.0f, 0.5f, 20.0f);
 		m_cubes[0]->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		m_cubes[0]->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 		for (int i = 1;i < 10;i++) {
-			Cube* cube = CreateCube(1.0f + i, 1.0f, 1.0f + i);
+			Cube* cube = Cube::CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
 			cube->transform.SetRotation(glm::angleAxis(glm::radians(18.0f * i), glm::vec3(0.0f, 1.0f, 0.0f)));
 			m_cubes[i] = cube;
 		}
-	}
-
-	Cube* LightTest::CreateCube(const float& width, const float& height, const float& depth) {
-		Cube* cube = new Cube();
-		cube->Ctor(width, height, depth);
-		// - Shader
-		cube->shader = new Shader();
-		cube->shader->Ctor("res/shader/Cube.shader");
-		cube->shader->Bind();
-		// - Texture 
-		cube->texture = new Texture();
-		cube->texture->Ctor("res/textures/jerry.png");
-		cube->texture->Bind();
-		return cube;
 	}
 
 	void LightTest::OnUpdate(const float& deltaTime) {
@@ -78,29 +64,10 @@ namespace test {
 		GLCall(glDepthFunc(GL_LESS));
 		GLCall(glDepthMask(GL_TRUE));
 
-
-		// 设置光源属性
-		GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 }; // 光源位置
-		GLfloat light_color[] = { 1.0, 1.0, 1.0, 1.0 }; // 光源颜色
-		glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
-
-		// 设置材质属性
-		GLfloat material_diffuse[] = { 0.8, 0.8, 0.8, 1.0 }; // 漫反射颜色
-		GLfloat material_specular[] = { 1.0, 1.0, 1.0, 1.0 }; // 镜面反射颜色
-		GLfloat material_shininess[] = { 50.0 }; // 高光指数
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, material_diffuse);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, material_specular);
-		glMaterialfv(GL_FRONT, GL_SHININESS, material_shininess);
-
-		// 启用光照
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-
 		for (size_t i = 0; i < 10; i++)
 		{
 			Cube* cube = m_cubes[i];
-			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->shader, &cube->va, cube->GetIndexBuffer());
+			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->material, &cube->va, cube->GetIndexBuffer());
 		}
 	}
 

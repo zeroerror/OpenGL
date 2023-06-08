@@ -16,16 +16,14 @@
 #include "Renderer.h"
 #include "GLDebug.h"
 
-Shader::Shader():m_RendererID(0) {}
-
-Shader::~Shader() {
-	GLCall(glDeleteProgram(m_RendererID));
-}
-
-void Shader::Ctor(const std::string& filePath) {
+Shader::Shader(const std::string& filePath){
 	ShaderProgramSource source = ParseShader(filePath);
 	m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
 	GLCall(glUseProgram(m_RendererID));
+}
+
+Shader::~Shader() {
+	GLCall(glDeleteProgram(m_RendererID));
 }
 
 ShaderProgramSource Shader::ParseShader(const std::string& filePath) {

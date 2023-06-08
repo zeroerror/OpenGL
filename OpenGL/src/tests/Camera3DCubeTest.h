@@ -25,8 +25,6 @@ namespace test {
 		GLFWwindow* window;
 		const float moveSpeed = 0.1f;
 		const float rotateSpeed = 0.1f;
-	private:
-		Cube* CreateCube(const float& width, const float& height, const float& depth);
 
 	private:
 		int m_screen_width;

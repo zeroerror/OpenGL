@@ -179,8 +179,6 @@
     <ClCompile Include="Src\Vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="Src\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Vendor\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Src\Tests\MVPTest.h" />
-    <ClCompile Include="Src\Tests\MVPTest.cpp" />
     <ClCompile Include="Src\Vendor\glm\detail\glm.cpp" />
     <ClCompile Include="Src\Tests\Test.cpp" />
     <ClCompile Include="Src\Transform.cpp" />
@@ -190,6 +188,8 @@
     <ClCompile Include="Src\Tests\Camera3DCubeTest.cpp" />
     <ClCompile Include="Src\Component\Camera\Camera3DController.cpp" />
     <ClCompile Include="Src\Tests\LightTest.cpp" />
+    <ClCompile Include="Src\Component\Light\DirectLight.cpp" />
+    <ClCompile Include="Src\Materials\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Shader.h" />
@@ -497,6 +497,9 @@
     <ClInclude Include="Src\3DObject\Cube.h" />
     <ClInclude Include="Src\Tests\Camera3DCubeTest.h" />
     <ClInclude Include="Src\Tests\LightTest.h" />
+    <ClInclude Include="Src\Component\Light\DirectLight.h" />
+    <ClInclude Include="Res\Shader\Material.h" />
+    <ClInclude Include="Src\Materials\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\Users\PC3070\Desktop\jerry.png" />

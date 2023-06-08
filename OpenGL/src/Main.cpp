@@ -1,4 +1,3 @@
-#include "tests/MVPTest.h"
 #include "tests/Camera3DCubeTest.h"
 #include "tests/LightTest.h"
 #include "GLDebug.h"
@@ -56,13 +55,6 @@ int main() {
 		test::Test* curTest = nullptr;
 		test::TestMenu* testMenu = new test::TestMenu(curTest);
 		curTest = testMenu;
-
-		testMenu->RegisterTest("MVP Test", [screen_width, screen_height]() {
-			test::MVPTest* mvpTest = new test::MVPTest();
-			mvpTest->Ctor(screen_width, screen_height);
-			return mvpTest;
-			}
-		);
 
 		testMenu->RegisterTest("Camera3D Cube Test", [window, screen_width, screen_height]() {
 			test::Camera3DCubeTest* test = new test::Camera3DCubeTest();
@@ -128,8 +120,7 @@ int main() {
 		};
 		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(GLuint), indiceArray, GL_STATIC_DRAW));
 
-		Shader shader = Shader();
-		shader.Ctor("res/shader/CubeTest.shader");
+		Shader shader = Shader("res/shader/CubeTest.shader");
 		shader.Bind();
 		glm::quat rot = glm::quat(0.0f, 0.0f, 0.0f, 1.0f);
 		GLCall(glEnable(GL_DEPTH_TEST));

@@ -9,7 +9,7 @@ private:
 	unsigned char* m_LocalBuffer;
 	int m_Width, m_Height, m_BPP;
 public:
-	Texture();
+	Texture(const std::string& path);
 	~Texture();
 	void Ctor(const std::string& path);
 

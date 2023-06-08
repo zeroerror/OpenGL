@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -299,6 +299,8 @@
     <None Include="Src\Vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\Materials\Material.cpp" />
+    <ClCompile Include="Src\Component\Light\DirectLight.cpp" />
     <ClCompile Include="Src\Component\Camera\Camera3DController.cpp" />
     <ClCompile Include="Src\3DObject\Cube.cpp" />
     <ClCompile Include="Src\Component\Camera\Camera3D.cpp" />
@@ -310,8 +312,6 @@
     <ClCompile Include="Src\Tests\Camera3DCubeTest.cpp" />
     <ClCompile Include="Src\Tests\LightTest.cpp" />
     <ClCompile Include="Src\Tests\Test.cpp" />
-    <ClCompile Include="Src\Tests\MVPTest.cpp" />
-    <ClCompile Include="Src\Tests\MVPTest.h" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\Transform.cpp" />
     <ClCompile Include="Src\Vendor\glm\detail\glm.cpp" />
@@ -328,6 +328,9 @@
     <ClCompile Include="Src\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\Materials\Material.h" />
+    <ClInclude Include="Res\Shader\Material.h" />
+    <ClInclude Include="Src\Component\Light\DirectLight.h" />
     <ClInclude Include="Src\3DObject\Cube.h" />
     <ClInclude Include="Src\Component\Camera\Camera3D.h" />
     <ClInclude Include="Src\GLDebug.h" />
