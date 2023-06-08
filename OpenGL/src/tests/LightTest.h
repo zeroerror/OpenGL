@@ -7,14 +7,14 @@
 #include "Test.h"
 #include "Camera3D.h"
 #include "Camera3DController.h"
-#include "Cube.h"
+#include <Cube.h>
 
 namespace test {
 
-	class Camera3DCubeTest :public Test {
+	class LightTest :public Test {
 	public:
-		Camera3DCubeTest();
-		~Camera3DCubeTest();
+		LightTest();
+		~LightTest();
 
 		void OnRender() override;
 		void OnUpdate(const float& deltaTime) override;

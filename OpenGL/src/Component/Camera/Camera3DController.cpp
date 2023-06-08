@@ -50,17 +50,14 @@ void Camera3DController::Update(const float& dt) {
 	float yawRadius = -glm::radians(cursorOffsetX * rotateSpeed);
 	float pitchRadius = -glm::radians(cursorOffsetY * rotateSpeed);
 	glm::qua camRot = camTrans.GetRotation();
-	glm::qua yawRot = glm::qua(glm::vec3(0, yawRadius, 0));
-	camRot = yawRot * camRot;
-	glm::qua pitchRot = glm::qua(glm::vec3(pitchRadius, 0, 0));
-	camRot = camRot * pitchRot;
+	camRot = glm::qua(glm::vec3(0, yawRadius, 0)) * camRot * glm::qua(glm::vec3(pitchRadius, 0, 0));
 	camTrans.SetRotation(camRot);
 
 	camera->Update(dt);
 
 	glm::vec3 euler = glm::eulerAngles(camRot);
-	std::cout << "Camera3D Rotation " << euler.x * 57.2958f << " " << euler.y * 57.2958f << " " << euler.z * 57.2958f << std::endl;
-	std::cout << "Camera3D Position " << glm::to_string(camera->transform.GetPosition()) << std::endl;
+	//std::cout << "Camera3D Rotation " << euler.x * 57.2958f << " " << euler.y * 57.2958f << " " << euler.z * 57.2958f << std::endl;
+	//std::cout << "Camera3D Position " << glm::to_string(camera->transform.GetPosition()) << std::endl;
 }
 
 void Camera3DController::SetMoveSpeed(const float& moveSpeed) {

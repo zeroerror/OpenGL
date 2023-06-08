@@ -1,5 +1,6 @@
 #include "tests/MVPTest.h"
 #include "tests/Camera3DCubeTest.h"
+#include "tests/LightTest.h"
 #include "GLDebug.h"
 
 #include <GL/glew.h>
@@ -63,11 +64,16 @@ int main() {
 			}
 		);
 
-		static bool flag;
 		testMenu->RegisterTest("Camera3D Cube Test", [window, screen_width, screen_height]() {
 			test::Camera3DCubeTest* test = new test::Camera3DCubeTest();
 			test->Ctor(window, screen_width, screen_height);
-			flag = true;
+			return test;
+			}
+		);
+
+		testMenu->RegisterTest("Light Test", [window, screen_width, screen_height]() {
+			test::LightTest* test = new test::LightTest();
+			test->Ctor(window, screen_width, screen_height);
 			return test;
 			}
 		);
