@@ -32,5 +32,6 @@ void Material::SetShader(Shader* shader) {
 }
 
 void Material::Bind() const{
+	diffuseTexture->Bind();
 	shader->Bind();
 }
