@@ -41,13 +41,21 @@ namespace test {
 		m_cameraController.Inject(&camera, window);
 
 		// ====== Cube
-		m_cubes[0] = Cube::CreateCube(20.0f, 0.5f, 20.0f);
-		m_cubes[0]->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-		m_cubes[0]->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
+		Material* material = new Material();
+		material->SetDiffuseTexture(new Texture("Res/Textures/jerry.png"));
+		Shader* shader = new Shader("Res/Shader/Cube.shader");
+		material->SetShader(shader);
+
+		Cube* cube = Cube::CreateCube(20.0f, 0.5f, 20.0f);
+		cube->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+		cube->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
+		cube->material = material;
+		m_cubes[0] = cube;
 		for (int i = 1;i < 10;i++) {
 			Cube* cube = Cube::CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
 			cube->transform.SetRotation(glm::angleAxis(glm::radians(18.0f * i), glm::vec3(0.0f, 1.0f, 0.0f)));
+			cube->material = material;
 			m_cubes[i] = cube;
 		}
 	}

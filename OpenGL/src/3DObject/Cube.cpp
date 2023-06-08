@@ -54,13 +54,6 @@ IndexBuffer* Cube::GetIndexBuffer() {
 Cube* Cube::CreateCube(const float& width, const float& height, const float& depth) {
 	Cube* cube = new Cube();
 	cube->Ctor(width, height, depth);
-
-	Material* material = new Material();
-	material->SetDiffuseTexture(new Texture("Res/Textures/jerry.png"));
-	Shader* shader = new Shader("Res/Shader/Cube.shader");
-	material->SetShader(shader);
-	cube->material = material;
-
 	return cube;
 }
 
