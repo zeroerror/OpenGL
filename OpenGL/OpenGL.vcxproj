@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light;$(SolutionDir)Src\Component\Transform</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -107,7 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Src;$(SolutionDir)Src\3DObject;$(SolutionDir)Src\Vendor;$(SolutionDir)Src\Materials;$(SolutionDir)Src\Component\Camera;$(SolutionDir)Src\Component\Light;$(SolutionDir)Src\Component\Transform</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -299,6 +299,8 @@
     <None Include="Src\Vendor\glm\gtx\wrap.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObject\GameObject.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
     <ClCompile Include="Src\Materials\Material.cpp" />
     <ClCompile Include="Src\Component\Light\DirectLight.cpp" />
     <ClCompile Include="Src\Component\Camera\Camera3DController.cpp" />
@@ -313,7 +315,7 @@
     <ClCompile Include="Src\Tests\LightTest.cpp" />
     <ClCompile Include="Src\Tests\Test.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
-    <ClCompile Include="Src\Transform.cpp" />
+    <ClCompile Include="src\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Vendor\glm\detail\glm.cpp" />
     <ClCompile Include="Src\Vendor\imgui\imgui.cpp" />
     <ClCompile Include="Src\Vendor\imgui\imgui_demo.cpp" />
@@ -328,6 +330,8 @@
     <ClCompile Include="Src\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameObject\GameObject.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
     <ClInclude Include="Src\Materials\Material.h" />
     <ClInclude Include="Res\Shader\Material.h" />
     <ClInclude Include="Src\Component\Light\DirectLight.h" />
@@ -340,7 +344,7 @@
     <ClInclude Include="Src\Tests\LightTest.h" />
     <ClInclude Include="Src\Tests\Test.h" />
     <ClInclude Include="Src\Texture.h" />
-    <ClInclude Include="Src\Transform.h" />
+    <ClInclude Include="src\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Vendor\glm\common.hpp" />
     <ClInclude Include="Src\Vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="Src\Vendor\glm\detail\compute_vector_relational.hpp" />

@@ -1,9 +1,11 @@
 #include "Camera3DCubeTest.h"
 #include <imgui/imgui_impl_opengl3.h>
 #include <imgui/imgui_impl_glfw.h>
+#include <Vendor/glm/gtx/quaternion.hpp>
 #include <GLFW/glfw3.h>
-#include <GLDebug.h>
-#include <Camera3DController.h>
+
+#include "GLDebug.h"
+#include "Camera3DController.h"
 
 namespace test {
 
@@ -11,6 +13,17 @@ namespace test {
 	Camera3DCubeTest::~Camera3DCubeTest() {}
 
 	void Camera3DCubeTest::Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height) {
+
+		// ====== Asset Loading
+		shaderAssets = ShaderAssets();
+		unsigned int shader =  shaderAssets.LoadShader("Res/Shader/Cube.shader");
+
+		textureAssets = TextureAssets();
+		unsigned int texture =  textureAssets.LoadTexture("Res/Textures/jerry.png");
+
+		// ====== Save Asset Reference By AID(Asset ID) to a hash map
+		allShaders.insert(std::pair<unsigned int, Shader*>(999, shaderAssets.GetShader(shader)));
+		allTextures.insert(std::pair<unsigned int, Texture*>(999, textureAssets.GetTexture(texture)));
 
 		// ====== Camera
 		camera = Camera3D();
@@ -31,7 +44,7 @@ namespace test {
 			glm::vec3 forward = camTrans.GetForward();
 			pos += forward * static_cast<float>(yoffset * camera3DCubeTest->moveSpeed);
 			camTrans.SetPosition(pos);
-			});
+		});
 
 		m_screen_width = screen_width;
 		m_screen_height = screen_height;
@@ -43,15 +56,14 @@ namespace test {
 		// ====== Cube
 		Material* material = new Material();
 		material->SetDiffuseTexture(new Texture("Res/Textures/jerry.png"));
-		Shader* shader = new Shader("Res/Shader/Cube.shader");
-		material->SetShader(shader);
+		material->SetShader(ShaderAssets.)
 
 		Cube* cube = Cube::CreateCube(20.0f, 0.5f, 20.0f);
 		cube->transform.SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		cube->transform.SetRotation(glm::quat(glm::vec3(0, 0, 0)));
 		cube->material = material;
 		m_cubes[0] = cube;
-		for (int i = 1;i < 10;i++) {
+		for (int i = 1; i < 10; i++) {
 			Cube* cube = Cube::CreateCube(1.0f + i, 1.0f, 1.0f + i);
 			cube->transform.SetPosition(glm::vec3(i * 1.0f, i * 1.0f, i * 1.0f));
 			cube->transform.SetRotation(glm::angleAxis(glm::radians(18.0f * i), glm::vec3(0.0f, 1.0f, 0.0f)));
@@ -72,10 +84,21 @@ namespace test {
 		GLCall(glDepthFunc(GL_LESS));
 		GLCall(glDepthMask(GL_TRUE));
 
-		for (size_t i = 0; i < 10; i++)
-		{
+		for (size_t i = 0; i < 10; i++) {
 			Cube* cube = m_cubes[i];
-			camera.Render(cube->transform.GetPosition(), cube->transform.GetRotation(), cube->material, &cube->va, cube->GetIndexBuffer());
+
+			glm::vec3 modPosition = cube->transform.GetPosition();
+			glm::quat modRotation = cube->transform.GetRotation();
+
+			// TODO: This should be set by material
+			Material* material = cube->material;
+			Shader* shader = material->shader;
+			shader->SetUniform1i("u_Texture", 0);
+			shader->SetUniformMat4f("u_MVP", camera.GetMVPMatrix_Perspective(modPosition, modRotation));
+			shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modRotation));
+			shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
+
+			camera.Render(modPosition, modRotation, material, &cube->va, cube->GetIndexBuffer());
 		}
 	}
 

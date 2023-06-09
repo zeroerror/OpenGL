@@ -8,10 +8,12 @@
 #include "Camera3D.h"
 #include "Camera3DController.h"
 #include "Cube.h"
+#include "ShaderAssets.h"
+#include "TextureAssets.h"
 
 namespace test {
 
-	class Camera3DCubeTest :public Test {
+	class Camera3DCubeTest:public Test {
 	public:
 		Camera3DCubeTest();
 		~Camera3DCubeTest();
@@ -20,11 +22,16 @@ namespace test {
 		void OnUpdate(const float& deltaTime) override;
 
 		void Ctor(GLFWwindow* window, const int& screen_width, const int& screen_height);
-	public:
+
 		Camera3D camera;
 		GLFWwindow* window;
 		const float moveSpeed = 0.1f;
 		const float rotateSpeed = 0.1f;
+		ShaderAssets shaderAssets;
+		TextureAssets textureAssets;
+
+		std::hash_map<unsigned int, Shader*> allShaders;
+		std::hash_map<unsigned int, Texture*> allTextures;
 
 	private:
 		int m_screen_width;

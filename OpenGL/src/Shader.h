@@ -24,6 +24,8 @@ public:
 	void Bind() const;
 	void UnBind()const;
 
+	unsigned int GetID() const;
+
 	// Set Uniforms
 	void SetUniform1i(const std::string& name, int v);
 	void SetUniform1f(const std::string& name, float v);

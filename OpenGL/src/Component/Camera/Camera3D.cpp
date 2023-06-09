@@ -16,11 +16,6 @@ void Camera3D::Update(const float& dt) {
 }
 
 void Camera3D::Render(glm::vec3 modPosition, glm::quat modRotation, Material* material, VertexArray* va, IndexBuffer* ib) {
-	Shader* shader = material->shader;
-	shader->SetUniform1i("u_Texture", 0);
-	shader->SetUniformMat4f("u_MVP", GetMVPMatrix_Perspective(modPosition, modRotation));
-	shader->SetUniformMat4f("u_ModRotationMatrix", glm::toMat4(modRotation));
-	shader->SetUniform4f("u_BlendColor", 0.0f, 0.0f, 0.0f, 1.0f);
 	Renderer renderer;
 	renderer.Draw(va, ib, material);
 }
@@ -50,8 +45,8 @@ glm::mat4 Camera3D::GetMVPMatrix_Perspective(const glm::vec3& pos, const glm::qu
 	glm::quat cameraRot = transform.GetRotation();
 	glm::mat4 view = glm::toMat4(glm::inverse(cameraRot));
 
-	float constexpr fov = glm::radians(45.0f); // ��ֱ�ӳ���
-	float aspectRatio = width / height; // ���߱�
+	float constexpr fov = glm::radians(45.0f); 
+	float aspectRatio = width / height;
 	float nearPlane = 0.1f;
 	float farPlane = 1000.0f;
 	glm::mat4 proj = glm::perspectiveRH(fov, aspectRatio, nearPlane, farPlane);

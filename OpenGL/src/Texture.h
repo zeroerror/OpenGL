@@ -11,7 +11,8 @@ private:
 public:
 	Texture(const std::string& path);
 	~Texture();
-	void Ctor(const std::string& path);
+
+	inline unsigned int GetID() const;
 
 	void Bind(unsigned int slot = 0) const;
 	void UnBind() const;

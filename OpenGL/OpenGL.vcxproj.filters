@@ -181,7 +181,7 @@
     <ClCompile Include="Src\Vendor\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Src\Vendor\glm\detail\glm.cpp" />
     <ClCompile Include="Src\Tests\Test.cpp" />
-    <ClCompile Include="Src\Transform.cpp" />
+    <ClCompile Include="src\Component\Transform\Transform.cpp" />
     <ClCompile Include="Src\Component\Camera\Camera3D.cpp" />
     <ClCompile Include="Src\GLDebug.cpp" />
     <ClCompile Include="Src\3DObject\Cube.cpp" />
@@ -190,6 +190,8 @@
     <ClCompile Include="Src\Tests\LightTest.cpp" />
     <ClCompile Include="Src\Component\Light\DirectLight.cpp" />
     <ClCompile Include="Src\Materials\Material.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\GameObject\GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Shader.h" />
@@ -492,7 +494,7 @@
     <ClInclude Include="Src\Vendor\glm\vec3.hpp" />
     <ClInclude Include="Src\Vendor\glm\vec4.hpp" />
     <ClInclude Include="Src\Vendor\glm\vector_relational.hpp" />
-    <ClInclude Include="Src\Transform.h" />
+    <ClInclude Include="src\Component\Transform\Transform.h" />
     <ClInclude Include="Src\Component\Camera\Camera3D.h" />
     <ClInclude Include="Src\3DObject\Cube.h" />
     <ClInclude Include="Src\Tests\Camera3DCubeTest.h" />
@@ -500,6 +502,8 @@
     <ClInclude Include="Src\Component\Light\DirectLight.h" />
     <ClInclude Include="Res\Shader\Material.h" />
     <ClInclude Include="Src\Materials\Material.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\GameObject\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="D:\Users\PC3070\Desktop\jerry.png" />

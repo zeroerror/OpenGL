@@ -14,7 +14,6 @@ VertexArray::~VertexArray() {
 void VertexArray::Ctor() {
 	GLCall(glGenVertexArrays(1, &m_RendererID));
 	GLCall(glBindVertexArray(m_RendererID));
-	std::cout << "VertexArray glGenVertexArrays m_RendererID: " << m_RendererID << std::endl;
 }
 
 void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout) {
